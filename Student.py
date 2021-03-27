@@ -1,15 +1,17 @@
+#student table: emailID,Name,SRN,Program,Address...
+#create a table STUCOU using student ID and course IDS
 
-from User import User
-
-class Student(User):
-    def __init__(self,Name,pwd,emailid,SRN,pgm,address,phone,branch,courses):
-        super().__init__(Name,pwd,emailid)
-        self.SRN=SRN
+class Student():
+    def __init__(self,email):
+        #calls the database based on the email and brings in the below values
+        self.email=email
+        self.Name=Name
+        self.SRN=SRN #primary key
         self._Program=pgm
         self._Address=address
         self._PhoneNumber=phone
         self._Branch=branch
-        self.CoursesEnrolled=[]
+        self.CoursesEnrolled=[] #list of course ID's which we get from the STUCOU table
     
     def seedetails(self):#GETTER method you would want to get all the private values of program,...,_branch]
         pass
@@ -26,16 +28,5 @@ class Student(User):
     def GiveCourseFeedback(self):
         pass
 
-
-
-
-
-'''
-class A:
-    _ne=5
-    def __init__(self):
-        self._name="sasas"
-obj=A()
-print(A._name) # error: type object 'A' has no attribute '_name'
-'''
-
+    def __repr__(self):
+    	return "\nStudent:\nID = {0}\n".format(self.SRN)

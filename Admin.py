@@ -1,8 +1,12 @@
+#admin table will be ID,email(1* key)
+
 from key_generator.key_generator import generate
 
 class Admin:
-	def __init__(self, ID = None):
+	def __init__(self,email="",ID = None):
 		self.ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
+		self.email=email
+		#self.name=name #get from database
 	
 	def AddStudent(self):
 		pass
