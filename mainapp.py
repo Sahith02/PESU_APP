@@ -14,7 +14,7 @@ def validate():
 	result=request.form
 	email,password=result['email'].lower(),result['password']
 	newuser=User(email,password)
-	obj=newuser.exists("abc")
+	obj=newuser.exists("abc")#newuser.exists(mysql connection)
 	account_type=obj
 	if obj:
 		if account_type=="admin":
