@@ -12,7 +12,7 @@ app = Flask(__name__, template_folder = "htmlfiles")
 def login():
 	return render_template("loginpage.html")
 
-@app.route('/loggedin', methods=['POST'])
+@app.route('/validate', methods=['POST'])
 def validate():
 	result = request.form
 	email, password = result['email'].lower(),result['password']
