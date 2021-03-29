@@ -14,7 +14,7 @@ class User:
 	def exists(self, databaseconn):
 		#return True
 		cur = databaseconn.cursor()
-		sqlquery = ("SELECT user_type from users where EMAIL=%s and PWD=%s")
+		sqlquery = ("SELECT user_type from users where EmailID = %s and Password = %s")
 		cur.execute(sqlquery, (self.EmailID, self.Password))
 		user = cur.fetchall()#will return a tuple a record in database: database order: emailID, pwd and typeofuser
 		#myc.close()
