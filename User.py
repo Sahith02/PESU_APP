@@ -11,21 +11,21 @@ class User:
 		self.Password = hash(password)
 		self.EmailID = email.lower()
 	
-	def exists(self,databaseconn):
+	def exists(self, databaseconn):
 		#return True
-		myc=databaseconn.cursor()
-		sqlquery=("SELECT user_type from users where EMAIL=%s and PWD=%s")
-		myc.execute(sqlquery,(self.EmailID,self.Password))
-		user=myc.fetchall()#will return a tuple a record in database: database order: emailID,pwd and typeofuser
-		myc.close()
+		cur = databaseconn.cursor()
+		sqlquery = ("SELECT user_type from users where EmailID = %s and Password = %s")
+		cur.execute(sqlquery, (self.EmailID, self.Password))
+		user = cur.fetchall()#will return a tuple a record in database: database order: emailID, pwd and typeofuser
+		#myc.close()
 		if user:
-			account_type=user[-1].lower()
+			account_type = user[-1].lower()
+			return account_type
 		else:
 			return False
 
-	def login(self,databaseconn):
+	def login(self):
 		pass
-		
 		
 	def logout(self):
 		pass
