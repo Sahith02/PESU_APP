@@ -4,10 +4,6 @@
 #If exists (based on some check function): return the type of account and also send an object of that type
 #If not -> return False
 
-from Student import Student
-from Faculty import Faculty
-from Admin import Admin
-
 import mysql.connector
 
 class User:
@@ -16,7 +12,7 @@ class User:
 		self.EmailID = email.lower()
 	
 	def exists(self,databaseconn):
-		return True
+		#return True
 		myc=databaseconn.cursor()
 		sqlquery=("SELECT user_type from users where EMAIL=%s and PWD=%s")
 		myc.execute(sqlquery,(self.EmailID,self.Password))
@@ -24,12 +20,6 @@ class User:
 		myc.close()
 		if user:
 			account_type=user[-1].lower()
-			if account_type=="admin":
-				return Admin(self.EmailID)
-			if account_type=='student':
-				return Student(self.EmailID)
-			if account_type=='faculty':
-				return Faculty(self.EmailID)
 		else:
 			return False
 
@@ -39,8 +29,4 @@ class User:
 		
 	def logout(self):
 		pass
-'''
-			
-			
-							
-'''
+
