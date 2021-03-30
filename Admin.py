@@ -1,12 +1,27 @@
 #admin table will be ID,email(1* key)
 
 from key_generator.key_generator import generate
+import mysql.connector
 
 class Admin:
-	def __init__(self,email="",ID = None):
-		self.ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
-		self.email=email
-		#self.name=name #get from database
+	def __init__(self, email = ""):
+		# start database connection
+		self.db_conn = mysql.connector.connect(
+			host = "localhost",
+			port = 3306,
+			user = "root",
+			password = "root",
+			database = "pesuapp"
+		)
+		# get details from database
+		cur = self.db_conn.cursor()
+		q = "SELECT id, name FROM admin WHERE email = %s"
+		cur.execute(q, (email,))
+		res = cur.fetchone()
+		# update admin attributes from database
+		self.ID = res[0]
+		self.email = email
+		self.name = res[1]
 	
 	def AddStudent(self):
 		pass
@@ -36,7 +51,7 @@ class Admin:
 		pass
 
 	def __repr__(self):
-		return "\nADMIN:\nID = {0}\n".format(self.ID)
+		return "\nADMIN:\nID = {0}\nEmail = {1}\nName = {2}".format(self.ID, self.email, self.name)
 
-A1 = Admin()
+A1 = Admin("sahith02@yahoo.com")
 print(A1)
