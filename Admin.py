@@ -1,22 +1,18 @@
 #admin table will be ID,email(1* key)
 
 from key_generator.key_generator import generate
+import uuid
 import mysql.connector
 import datetime
 from Announcement import Announcement
+from Course import Course
 
 class Admin:
-	def __init__(self, email = ""):
-		# start database connection
-		self.db_conn = mysql.connector.connect(
-			host = "localhost",
-			port = 3306,
-			user = "root",
-			password = "root",
-			database = "pesuapp"
-		)
-		# query details from database
-		cur = self.db_conn.cursor()
+	def __init__(self,db_conn=None,email = ""):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
+		cur = db_conn.cursor()
 		query = "SELECT id, name FROM admin WHERE email = %s"
 		cur.execute(query, (email,))
 		result = cur.fetchone()
@@ -24,6 +20,7 @@ class Admin:
 		self.ID = result[0]
 		self.email = email
 		self.name = result[1]
+		cur.close()
 	
 	def AddStudent(self):
 		pass
@@ -37,74 +34,174 @@ class Admin:
 	def EditFaculty(self):
 		pass
 
-	def AddCourse(self):
-		pass
+	def AssignFacultyToCourse(self,facultyID,courseID,db_conn=None):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
 
-	def EditCourse(self):
-		pass
+		try:
+			cursor=db_conn.cursor()
+			query="INSERT INTO coufac(courseid,facultyid) values (%s,%s)"
+			cursor.execute(query,courseID,facultyID)
+			db_conn.commit()
+			cursor.close()
+			return True
+		except:
+			print(f"\nError while assigning Faculty-{facultyID} to Course-{courseID}\n")
+			return False
 
-	def ViewAnnouncements(self):
-		cur = self.db_conn.cursor()
+	def GetFaculty(self,courseid,db_conn=None):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
+		facultylist=[]
+		cur=db_conn.cursor()
+		query="SELECT facultyid FROM coufac WHERE courseid=%s"
+		cur.execute(query,(courseid))
+		results=cur.fetchall()
+		cur.close()
+		for result in results:
+			facultylist.append(result[0])
+		return facultylist
+
+	def ViewCourse(self,db_conn=None,id=""):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
+		cur = db_conn.cursor()
+		query = "SELECT * FROM course"
+		cur.execute(query)
+		results = cur.fetchall()
+		cur.close()
+		all_courses=[]
+		for result in results:
+			idx,title,dept,details,AVL=result
+			faculties=self.GetFaculty(idx,db_conn)
+			all_courses.append(Course(idx,title,dept,faculties,details,AVL))
+		return all_courses
+
+	def AddCourse(self,db_conn=None,CourseTitle="",Department="",Faculties=[],Details="",AVSummary=""):
+		#db_conn is the database connection, Faculties is list of faculty ids
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
+		if CourseTitle and Department and Faculties and Details and AVSummary:
+			try:
+				ID=str(uuid.uuid4())
+				cur = db_conn.cursor()
+				query="INSERT INTO course(id,title,dept,details,AVL) values(%s,%s,%s,%s,%s)"
+				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary))
+				db_conn.commmit()
+				for facultyid in Faculties:
+					k=self.AssignFacultyToCourse(facultyid,ID,db_conn)
+					if not(k):
+						break
+				return True
+			except:
+				print("\nError in adding the course\n")
+				return False
+		else:
+			return False
+
+	def EditCourse(self,db_conn=None,Id="",Title="",Facultiestobeadded=[],Details="",AVS=""):#dept can't change
+		#faculties can only be added
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
+		if Id:
+			cur=db_conn.cursor()
+			if Title:
+				query="UPDATE course SET title=%s WHERE id=%s"
+				cur.execute(query,(Title,Id))
+				db_conn.commit()
+			if Details:
+				query="UPDATE course SET details=%s WHERE id=%s"
+				cur.execute(query,(Details,Id))
+				db_conn.commit()
+			if AVS:
+				query="UPDATE course SET AVL=%s WHERE id=%s"
+				cur.execute(query,(AVS,Id))
+				db_conn.commit()
+			cur.close()
+			if Facultiestobeadded:
+				for i in Facultiestobeadded:
+					self.AssignFacultyToCourse(i,Id,db_conn)
+			return True
+		else:
+			return False
+
+	def ViewAnnouncements(self,db_conn=None):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
+		cur = db_conn.cursor()
 		query = "SELECT id FROM announcement ORDER BY posting_time DESC"
 		cur.execute(query)
 		results = cur.fetchall()
 		all_announcements = []
+
 		for result in results:
 			all_announcements.append(Announcement(result[0]))
 		return all_announcements
 
-	def AddAnnouncement(self, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
+	def AddAnnouncement(self,db_conn=None, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
 		ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
 		PostingTime = datetime.datetime.now() if (PostingTime == None) else PostingTime
-		cur = self.db_conn.cursor()
+		cur = db_conn.cursor()
 		query = "INSERT INTO `pesuapp`.`announcement` (`id`, `title`, `location`, `description`, `picture_link`, `hyperlink`, `posting_time`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
 		cur.execute(query, (ID, Title, Location, Description, PictureLink, HyperLink, PostingTime))
-		self.db_conn.commit()
+		db_conn.commit()
+		cur.close()
 
-	def UpdateAnnouncement(self, ID = None, Title = None, Location = None, Description = None, PictureLink = None, HyperLink = None):
+	def UpdateAnnouncement(self,db_conn=None, ID = None, Title = None, Location = None, Description = None, PictureLink = None, HyperLink = None):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+
 		if(ID):
-			cur = self.db_conn.cursor()
+			cur = db_conn.cursor()
 			if(Title):
 				query = "UPDATE announcement SET title = %s WHERE id = %s"
 				# print(Title, ID)
 				cur.execute(query, (Title, ID))
-				self.db_conn.commit()
+				db_conn.commit()
 			if(Location):
 				query = "UPDATE announcement SET location = %s WHERE id = %s"
 				cur.execute(query, (Location, ID))
-				self.db_conn.commit()
+				db_conn.commit()
 			if(Description):
 				query = "UPDATE announcement SET description = %s WHERE id = %s"
 				cur.execute(query, (Description, ID))
-				self.db_conn.commit()
+				db_conn.commit()
 			if(PictureLink):
 				query = "UPDATE announcement SET picture_link = %s WHERE id = %s"
 				cur.execute(query, (PictureLink, ID))
-				self.db_conn.commit()
+				db_conn.commit()
 			if(HyperLink):
 				query = "UPDATE announcement SET hyperlink = %s WHERE id = %s"
 				cur.execute(query, (HyperLink, ID))
-				self.db_conn.commit()
+				db_conn.commit()
 		else:
 			return
 	
-	def RemoveAnnouncement(self, ID = None):
+	def RemoveAnnouncement(self,db_conn=None,ID = None):
+		if not(db_conn):
+			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+			
 		if(ID == None):
 			return
 		else:
-			cur = self.db_conn.cursor()
+			cur = db_conn.cursor()
 			query = "DELETE FROM announcement WHERE id = %s"
 			cur.execute(query, (ID, ))
-			self.db_conn.commit()
-
-	def AssignFacultyToCourse(self):
-		pass
+			db_conn.commit()
 
 	def __repr__(self):
 		return "\nADMIN:\nID = {0}\nEmail = {1}\nName = {2}".format(self.ID, self.email, self.name)
 
-A1 = Admin("sahith02@yahoo.com")
-print(A1)
+# A1 = Admin("sahith02@yahoo.com")
+# print(A1)
 
 # code to remove an announcement with ID
 # A1.RemoveAnnouncement(ID = "4")
@@ -116,6 +213,6 @@ print(A1)
 # A1.AddAnnouncement(ID = "4", Title = "Title 4")
 
 # print all announcements
-all_announcements = A1.ViewAnnouncements()
-for announcement in all_announcements:
-	print(announcement)
+# all_announcements = A1.ViewAnnouncements()
+# for announcement in all_announcements:
+# 	print(announcement)

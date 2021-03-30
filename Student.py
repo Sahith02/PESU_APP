@@ -1,32 +1,17 @@
-#student table: emailID,Name,SRN,Program,Address...
-#create a table STUCOU using student ID and course IDS
-
+#student table: emailid,studname,SRN,Pgm,Address,PhoneNumber,Branch
+#stucou table: mapping between student id and course id
+import mysql.connector
 class Student():
-    def __init__(self,email):
-        #calls the database based on the email and brings in the below values
-        self.email=email
-        self.Name=Name
-        self.SRN=SRN #primary key
-        self._Program=pgm
-        self._Address=address
-        self._PhoneNumber=phone
-        self._Branch=branch
-        self.CoursesEnrolled=[] #list of course ID's which we get from the STUCOU table
-    
-    def seedetails(self):#GETTER method you would want to get all the private values of program,...,_branch]
-        pass
-
-    def editdetails(self):#SETTER method
-        pass
-
-    def CheckEventNotification(self):
-        pass
-
-    def CheckCourses(self):
-        pass
-
-    def GiveCourseFeedback(self):
-        pass
-
-    def __repr__(self):
-    	return "\nStudent:\nID = {0}\n".format(self.SRN)
+    def __init__(self,email,db_conn=None):
+        if not(db_conn):
+            db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
+        cur=db_conn.cursor()
+        query="SELECT studname,srn,pgm,`address`,phonenumber,branch FROM student WHERE emailid=%s"
+        cur.execute(query,(email))
+        res=cur.fetchone()
+        cur.close()
+        if res:
+            self.email=email
+            self.name,self.srn,self.pgm,self.address,self.phonenumber,self.branch=res
+        
+        

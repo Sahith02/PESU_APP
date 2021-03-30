@@ -19,12 +19,11 @@ def validate():
 	if not(email):#connector.execute(query with %s,args in tuples) - Prevents SQL injections
 		return redirect("http://localhost:5000")
 	newuser = User(email,password)
-	mysqlconnection = mysql.connector.connect(host = "localhost", user = "root", database = "mydatabase")
+	mysqlconnection = mysql.connector.connect(host = "localhost",port=3306, user = "root", database = "pesuapp")
 	account_type = newuser.exists(mysqlconnection)
-
 	if account_type:
 		if account_type == "admin":
-			#return Admin(email)
+			adminobj=Admin(mysqlconnection,email)
 			pass
 		if account_type == 'student':
 			#return Student(email)

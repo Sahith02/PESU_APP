@@ -16,8 +16,8 @@ class User:
 		cur = databaseconn.cursor()
 		sqlquery = ("SELECT user_type from users where EmailID = %s and Password = %s")
 		cur.execute(sqlquery, (self.EmailID, self.Password))
-		user = cur.fetchall()#will return a tuple a record in database: database order: emailID, pwd and typeofuser
-		#myc.close()
+		user = cur.fetchone()#will return a tuple a record in database: database order: emailID, pwd and typeofuser
+		cur.close()
 		if user:
 			account_type = user[-1].lower()
 			return account_type
