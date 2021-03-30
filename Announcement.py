@@ -23,12 +23,12 @@ class Announcement:
 		self.Location = result[2]
 		self.Description = result[3]
 		self.PictureLink = result[4]
-		self.HyperLinks = result[5]
+		self.HyperLink = result[5]
 		self.PostingTime = result[6]
 
 	def __repr__(self):
-		return "\nANNOUNCEMENT:\nID = {0} \nTitle = {1} \nLocation = {2} \nDescription = {3} \nPictureLink = {4} \nHyperLinks = {5} \nPostingTime = {6}\n".format(
-			self.ID, self.Title, self.Location, self.Description, self.PictureLink, self.HyperLinks, self.PostingTime)
+		return "\nANNOUNCEMENT:\nID = {0} \nTitle = {1} \nLocation = {2} \nDescription = {3} \nPictureLink = {4} \nHyperLink = {5} \nPostingTime = {6}\n".format(
+			self.ID, self.Title, self.Location, self.Description, self.PictureLink, self.HyperLink, self.PostingTime)
 
 # A1 = Announcement("1")
 # print(A1)
