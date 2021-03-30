@@ -110,12 +110,12 @@ print(A1)
 # A1.RemoveAnnouncement(ID = "4")
 
 # code to update an annoucement
-A1.UpdateAnnouncement(ID = "4", Title = "title 4", Location = "location 4", Description = "description 4", PictureLink = "picture link 4", HyperLink = "hyperlink 4")
+# A1.UpdateAnnouncement(ID = "4", Title = "title 4", Location = "location 4", Description = "description 4", PictureLink = "picture link 4", HyperLink = "hyperlink 4")
+
+# code to add a new announcement - [CAUTION] It changes the original database
+# A1.AddAnnouncement(ID = "4", Title = "Title 4")
 
 # print all announcements
 all_announcements = A1.ViewAnnouncements()
 for announcement in all_announcements:
 	print(announcement)
-
-# code to add a new announcement - [CAUTION] It changes the original database
-# A1.AddAnnouncement(ID = "4", Title = "Title 4")
