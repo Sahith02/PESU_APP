@@ -17,7 +17,6 @@ class Announcement:
 		query = "SELECT id, title, location, description, picture_link, hyperlink, posting_time FROM announcement WHERE id = %s"
 		cur.execute(query, (ID,))
 		result = cur.fetchone()
-		print(result)
 		# update announcement attributes from database
 		self.ID = result[0]
 		self.Title = result[1]
@@ -26,13 +25,10 @@ class Announcement:
 		self.PictureLink = result[4]
 		self.HyperLinks = result[5]
 		self.PostingTime = result[6]
-	
-	def ViewAnnouncements(self):
-		pass
 
 	def __repr__(self):
 		return "\nANNOUNCEMENT:\nID = {0} \nTitle = {1} \nLocation = {2} \nDescription = {3} \nPictureLink = {4} \nHyperLinks = {5} \nPostingTime = {6}\n".format(
 			self.ID, self.Title, self.Location, self.Description, self.PictureLink, self.HyperLinks, self.PostingTime)
 
-A1 = Announcement("1")
-print(A1)
+# A1 = Announcement("1")
+# print(A1)

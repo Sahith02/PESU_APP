@@ -2,6 +2,7 @@
 
 from key_generator.key_generator import generate
 import mysql.connector
+from Announcement import Announcement
 
 class Admin:
 	def __init__(self, email = ""):
@@ -44,6 +45,16 @@ class Admin:
 	def AddAnnouncement(self):
 		pass
 
+	def ViewAnnouncements(self):
+		cur = self.db_conn.cursor()
+		query = "SELECT id FROM announcement ORDER BY posting_time DESC"
+		cur.execute(query)
+		results = cur.fetchall()
+		all_announcements = []
+		for result in results:
+			all_announcements.append(Announcement(result[0]))
+		return all_announcements
+
 	def AssignFacultyToCourse(self):
 		pass
 
@@ -55,3 +66,6 @@ class Admin:
 
 A1 = Admin("sahith02@yahoo.com")
 print(A1)
+all_announcements = A1.ViewAnnouncements()
+for announcement in all_announcements:
+	print(announcement)
