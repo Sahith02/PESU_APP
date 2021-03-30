@@ -13,15 +13,15 @@ class Admin:
 			password = "root",
 			database = "pesuapp"
 		)
-		# get details from database
+		# query details from database
 		cur = self.db_conn.cursor()
-		q = "SELECT id, name FROM admin WHERE email = %s"
-		cur.execute(q, (email,))
-		res = cur.fetchone()
+		query = "SELECT id, name FROM admin WHERE email = %s"
+		cur.execute(query, (email,))
+		result = cur.fetchone()
 		# update admin attributes from database
-		self.ID = res[0]
+		self.ID = result[0]
 		self.email = email
-		self.name = res[1]
+		self.name = result[1]
 	
 	def AddStudent(self):
 		pass

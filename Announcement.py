@@ -12,20 +12,20 @@ class Announcement:
 			password = "root",
 			database = "pesuapp"
 		)
-		# get details from database
+		# query details from database
 		cur = self.db_conn.cursor()
-		q = "SELECT id, title, location, description, picture_link, hyperlink, posting_time FROM announcement WHERE id = %s"
-		cur.execute(q, (ID,))
-		res = cur.fetchone()
-		print(res)
+		query = "SELECT id, title, location, description, picture_link, hyperlink, posting_time FROM announcement WHERE id = %s"
+		cur.execute(query, (ID,))
+		result = cur.fetchone()
+		print(result)
 		# update announcement attributes from database
-		self.ID = res[0]
-		self.Title = res[1]
-		self.Location = res[2]
-		self.Description = res[3]
-		self.PictureLink = res[4]
-		self.HyperLinks = res[5]
-		self.PostingTime = res[6]
+		self.ID = result[0]
+		self.Title = result[1]
+		self.Location = result[2]
+		self.Description = result[3]
+		self.PictureLink = result[4]
+		self.HyperLinks = result[5]
+		self.PostingTime = result[6]
 	
 	def ViewAnnouncements(self):
 		pass
