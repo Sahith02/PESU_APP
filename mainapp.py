@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect
+from flask import Flask, render_template, request, redirect, url_for
 from User import User
 from Admin import Admin
 from Student import Student
@@ -31,7 +31,7 @@ def validate():
 			#return Faculty(email)
 			pass
 	else:
-		return redirect("http://localhost:5000")
+		return redirect(url_for('login'))
 
 if __name__ == '__main__':
 	app.run(debug = True)
