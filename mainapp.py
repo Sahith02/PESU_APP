@@ -16,9 +16,11 @@ def login():
 def validate():
 	result = request.form
 	email, password = result['email'].lower(),result['password']
+	if not(email):#connector.execute(query with %s,args in tuples) - Prevents SQL injections
+		return redirect("http://localhost:5000")
 	newuser = User(email,password)
-	cnx = mysql.connector.connect(host = "localhost", user = "root", database = "mydatabase")
-	account_type = newuser.exists(cnx)
+	mysqlconnection = mysql.connector.connect(host = "localhost", user = "root", database = "mydatabase")
+	account_type = newuser.exists(mysqlconnection)
 
 	if account_type:
 		if account_type == "admin":
