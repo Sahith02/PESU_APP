@@ -1,20 +1,34 @@
 from key_generator.key_generator import generate
+import mysql.connector
+
 
 class Announcement:
-	def __init__(self, Title = "", Location = "", Description = "", PictureLink = "", HyperLinks = [], PostingTime = None, ID = None):
-		self.ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
-		self.Title = Title
-		self.Location = Location
-		self.Description = Description
-		self.PictureLink = PictureLink
-		self.HyperLinks = HyperLinks
-		self.PostingTime = PostingTime
-	
-	def ViewAnnouncements(self):
-		pass
+	def __init__(self, ID = ""):
+		# start database connection
+		self.db_conn = mysql.connector.connect(
+			host = "localhost",
+			port = 3306,
+			user = "root",
+			password = "root",
+			database = "pesuapp"
+		)
+		# query details from database
+		cur = self.db_conn.cursor()
+		query = "SELECT id, title, location, description, picture_link, hyperlink, posting_time FROM announcement WHERE id = %s"
+		cur.execute(query, (ID,))
+		result = cur.fetchone()
+		# update announcement attributes from database
+		self.ID = result[0]
+		self.Title = result[1]
+		self.Location = result[2]
+		self.Description = result[3]
+		self.PictureLink = result[4]
+		self.HyperLink = result[5]
+		self.PostingTime = result[6]
 
 	def __repr__(self):
-		return "\nANNOUNCEMENT:\nID = {0} \nTitle = {1} \nLocation = {2} \nDescription = {3} \nPictureLink = {4} \nHyperLinks = {5} \nPostingTime = {6}\n".format(self.ID, self.Title, self.Location, self.Description, self.PictureLink, self.HyperLinks, self.PostingTime)
+		return "\nANNOUNCEMENT:\nID = {0} \nTitle = {1} \nLocation = {2} \nDescription = {3} \nPictureLink = {4} \nHyperLink = {5} \nPostingTime = {6}\n".format(
+			self.ID, self.Title, self.Location, self.Description, self.PictureLink, self.HyperLink, self.PostingTime)
 
-A1 = Announcement()
-print(A1)
+# A1 = Announcement("1")
+# print(A1)
