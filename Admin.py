@@ -43,14 +43,6 @@ class Admin:
 	def EditCourse(self):
 		pass
 
-	def AddAnnouncement(self, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
-		ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
-		PostingTime = datetime.datetime.now() if (PostingTime == None) else PostingTime
-		cur = self.db_conn.cursor()
-		query = "INSERT INTO `pesuapp`.`announcement` (`id`, `title`, `location`, `description`, `picture_link`, `hyperlink`, `posting_time`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
-		cur.execute(query, (ID, Title, Location, Description, PictureLink, HyperLink, PostingTime))
-		self.db_conn.commit()
-
 	def ViewAnnouncements(self):
 		cur = self.db_conn.cursor()
 		query = "SELECT id FROM announcement ORDER BY posting_time DESC"
@@ -61,6 +53,50 @@ class Admin:
 			all_announcements.append(Announcement(result[0]))
 		return all_announcements
 
+	def AddAnnouncement(self, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
+		ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
+		PostingTime = datetime.datetime.now() if (PostingTime == None) else PostingTime
+		cur = self.db_conn.cursor()
+		query = "INSERT INTO `pesuapp`.`announcement` (`id`, `title`, `location`, `description`, `picture_link`, `hyperlink`, `posting_time`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
+		cur.execute(query, (ID, Title, Location, Description, PictureLink, HyperLink, PostingTime))
+		self.db_conn.commit()
+
+	def UpdateAnnouncement(self, ID = None, Title = None, Location = None, Description = None, PictureLink = None, HyperLink = None):
+		if(ID):
+			cur = self.db_conn.cursor()
+			if(Title):
+				query = "UPDATE announcement SET title = %s WHERE id = %s"
+				# print(Title, ID)
+				cur.execute(query, (Title, ID))
+				self.db_conn.commit()
+			if(Location):
+				query = "UPDATE announcement SET location = %s WHERE id = %s"
+				cur.execute(query, (Location, ID))
+				self.db_conn.commit()
+			if(Description):
+				query = "UPDATE announcement SET description = %s WHERE id = %s"
+				cur.execute(query, (Description, ID))
+				self.db_conn.commit()
+			if(PictureLink):
+				query = "UPDATE announcement SET picture_link = %s WHERE id = %s"
+				cur.execute(query, (PictureLink, ID))
+				self.db_conn.commit()
+			if(HyperLink):
+				query = "UPDATE announcement SET hyperlink = %s WHERE id = %s"
+				cur.execute(query, (HyperLink, ID))
+				self.db_conn.commit()
+		else:
+			return
+	
+	def RemoveAnnouncement(self, ID = None):
+		if(ID == None):
+			return
+		else:
+			cur = self.db_conn.cursor()
+			query = "DELETE FROM announcement WHERE id = %s"
+			cur.execute(query, (ID, ))
+			self.db_conn.commit()
+
 	def AssignFacultyToCourse(self):
 		pass
 
@@ -69,6 +105,12 @@ class Admin:
 
 A1 = Admin("sahith02@yahoo.com")
 print(A1)
+
+# code to remove an announcement with ID
+# A1.RemoveAnnouncement(ID = "4")
+
+# code to update an annoucement
+A1.UpdateAnnouncement(ID = "4", Title = "title 4", Location = "location 4", Description = "description 4", PictureLink = "picture link 4", HyperLink = "hyperlink 4")
 
 # print all announcements
 all_announcements = A1.ViewAnnouncements()
