@@ -8,10 +8,8 @@ from Announcement import Announcement
 from Course import Course
 
 class Admin:
-	def __init__(self,db_conn=None,email = ""):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
+	def __init__(self,db_conn,email = ""):
+		
 		cur = db_conn.cursor()
 		query = "SELECT id, name FROM admin WHERE email = %s"
 		cur.execute(query, (email,))
@@ -34,10 +32,7 @@ class Admin:
 	def EditFaculty(self):
 		pass
 
-	def AssignFacultyToCourse(self,facultyID,courseID,db_conn=None):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
+	def AssignFacultyToCourse(self,facultyID,courseID,db_conn):
 		try:
 			cursor=db_conn.cursor()
 			query="INSERT INTO coufac(courseid,facultyid) values (%s,%s)"
@@ -49,10 +44,7 @@ class Admin:
 			print(f"\nError while assigning Faculty-{facultyID} to Course-{courseID}\n")
 			return False
 
-	def GetFaculty(self,courseid,db_conn=None):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
+	def GetFaculty(self,courseid,db_conn):
 		facultylist=[]
 		cur=db_conn.cursor()
 		query="SELECT facultyid FROM coufac WHERE courseid=%s"
@@ -63,27 +55,21 @@ class Admin:
 			facultylist.append(result[0])
 		return facultylist
 
-	def ViewCourse(self,db_conn=None,id=""):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
-		cur = db_conn.cursor()
-		query = "SELECT * FROM course"
+	def ViewCourse(self,db_conn,id=""):
+		
+		cur=db_conn.cursor()
+		query="SELECT courseid FROM course"
 		cur.execute(query)
-		results = cur.fetchall()
+		res=cur.fetchall()
 		cur.close()
-		all_courses=[]
-		for result in results:
-			idx,title,dept,details,AVL=result
-			faculties=self.GetFaculty(idx,db_conn)
-			all_courses.append(Course(idx,title,dept,faculties,details,AVL))
-		return all_courses
+		courses=[]
+		if res:
+			courses=[Course(db_conn,x[0]) for x in res]
+		return courses
 
-	def AddCourse(self,db_conn=None,CourseTitle="",Department="",Faculties=[],Details="",AVSummary=""):
+	def AddCourse(self,db_conn,CourseTitle="",Department="",Faculties=[],Details="",AVSummary=""):
 		#db_conn is the database connection, Faculties is list of faculty ids
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
+		
 		if CourseTitle and Department and Faculties and Details and AVSummary:
 			try:
 				ID=str(uuid.uuid4())
@@ -129,10 +115,7 @@ class Admin:
 		else:
 			return False
 
-	def ViewAnnouncements(self,db_conn=None):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
+	def ViewAnnouncements(self,db_conn):
 		cur = db_conn.cursor()
 		query = "SELECT id FROM announcement ORDER BY posting_time DESC"
 		cur.execute(query)
@@ -143,10 +126,7 @@ class Admin:
 			all_announcements.append(Announcement(result[0]))
 		return all_announcements
 
-	def AddAnnouncement(self,db_conn=None, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
+	def AddAnnouncement(self,db_conn, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
 		ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
 		PostingTime = datetime.datetime.now() if (PostingTime == None) else PostingTime
 		cur = db_conn.cursor()
@@ -155,10 +135,8 @@ class Admin:
 		db_conn.commit()
 		cur.close()
 
-	def UpdateAnnouncement(self,db_conn=None, ID = None, Title = None, Location = None, Description = None, PictureLink = None, HyperLink = None):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
+	def UpdateAnnouncement(self,db_conn, ID = None, Title = None, Location = None, Description = None, PictureLink = None, HyperLink = None):
+		
 		if(ID):
 			cur = db_conn.cursor()
 			if(Title):

@@ -1,7 +1,10 @@
 #Faculty table will be FacultyID, Name, Email(1* key), ContactNumber, Address, DateofJoining
 
+from Course import Course
+
+import mysql.connector
 class Faculty():
-	def __init__(self, email, dbconn):
+	def __init__(self,dbconn, email):
 		self.cur = dbconn.cursor()
 		query = "SELECT * FROM Faculty WHERE email = %s"
 		self.cur.execute(query, (email,))
@@ -24,6 +27,23 @@ class Faculty():
 		if email:
 			query = "UPDATE Faculty SET Email = %s WHERE FacultyID = %s"
 			self.cur.execute(query, (email , self.FacultyID))
+	
+	def GetStats(self,db_conn):#to get all the courses the faculty teaches and also total number of students learning that course(not under the faculty)
+		cur=db_conn.cursor()
+		query="SELECT courseid FROM coufac WHERE facultyid=%s"
+		cur.execute(query,(self.FacultyID))
+		res=cur.fetchall()
+		nofcourses=len(res)
+		courses=[]
+		for i in res:
+			courseid=i[0]
+			query="SELECT count(*) as ncs FROM stucou WHERE course=%s"
+			cur.execute(query,(courseid))
+			result=cur.fetchone()[0]
+			courses.append(Course(db_conn,courseid),result)
+		cur.close()
+		return (nofcourses,courses)
+
 		
 	def CheckEventNotification(self, notifications):
 		pass
@@ -32,4 +52,4 @@ class Faculty():
 		self.cur.close()
 
 	def __repr__(self):
-		return "\nStudent:\nID = {0}\n".format(self.email)
+		return "\nFaculty:\nID = {0}\n".format(self.email)

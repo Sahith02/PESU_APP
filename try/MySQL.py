@@ -1,3 +1,4 @@
+'''
 import mysql.connector
 mydb=mysql.connector.connect(host="localhost",user="root",database="mydatabase")
 myc=mydb.cursor()
@@ -5,6 +6,7 @@ sql=("SELECT name_as_per_whatsapp from birthdays where DAY=%s and MONTH=%s")
 myc.execute(sql,(curday,curmonth))#for %s ->curday
 res=myc.fetchall()
 mydb.close()
+'''
 
 #TO create a table within it
 #using the database/schema mydatabase

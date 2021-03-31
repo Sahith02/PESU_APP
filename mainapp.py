@@ -45,11 +45,10 @@ def student_feedback():
 
 @app.route("/student_notifications", methods = ["GET", "POST"])
 def student_notifications():
-	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "root", database = "pesuapp")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "", database = "pesuapp")
 	A1 = Admin(db_conn, "sahith02@yahoo.com")
 	all_announcements = A1.ViewAnnouncements(db_conn)
 	return render_template("student_notifications.html", all_announcements = all_announcements)
-
 
 if __name__ == '__main__':
 	app.run(debug = True)
