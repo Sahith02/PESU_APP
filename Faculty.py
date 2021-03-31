@@ -6,7 +6,7 @@ import mysql.connector
 class Faculty():
 	def __init__(self,dbconn, email):
 		self.cur = dbconn.cursor()
-		query = "SELECT * FROM Faculty WHERE email = %s"
+		query = "SELECT * FROM Faculty WHERE Email = %s"
 		self.cur.execute(query, (email,))
 		res = self.cur.fetchone()
 		if res:
@@ -17,16 +17,16 @@ class Faculty():
 			self.Address = res[4]
 			self.DateOfJoining = res[5]
 
-	def EditDetails(self, email = None, ContactNumber = None, Address = None):
+	def EditDetails(self,db_conn,ContactNumber = None, Address = None):
+		self.cur=db_conn.cursor()
 		if ContactNumber:
 			query = "UPDATE Faculty SET ContactNumber = %s WHERE FacultyID = %s"
 			self.cur.execute(query, (ContactNumber,self.FacultyID))
+			db_conn.commit()
 		if Address:
 			query = "UPDATE Faculty SET Address = %s WHERE FacultyID = %s"
 			self.cur.execute(query, (ContactNumber, self.FacultyID))
-		if email:
-			query = "UPDATE Faculty SET Email = %s WHERE FacultyID = %s"
-			self.cur.execute(query, (email , self.FacultyID))
+			db_conn.commit()
 	
 	def GetStats(self,db_conn):#to get all the courses the faculty teaches and also total number of students learning that course(not under the faculty)
 		cur=db_conn.cursor()
@@ -37,7 +37,7 @@ class Faculty():
 		courses=[]
 		for i in res:
 			courseid=i[0]
-			query="SELECT count(*) as ncs FROM stucou WHERE course=%s"
+			query="SELECT count(*) as ncs FROM stucou WHERE courseid=%s"
 			cur.execute(query,(courseid))
 			result=cur.fetchone()[0]
 			courses.append(Course(db_conn,courseid),result)

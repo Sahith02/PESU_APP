@@ -4,10 +4,10 @@ CREATE TABLE `pesuapp`.`feedback` (
   `Review` VARCHAR(1000) NULL,
   PRIMARY KEY (`CourseID`, `StudentID`));
 
-INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("c1", "s1", "review1");
-INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("c2", "s2", "review2");
-INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("c3", "s3", "review3");
-INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("c4", "s4", "review4");
+INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("2345678911", "3456789121", "review1");
+INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("2345678912", "3456789122", "review2");
+INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("2345678913", "3456789123", "review3");
+INSERT INTO `pesuapp`.`feedback` (`CourseID`, `StudentID`, `Review`) VALUES ("2345678914", "3456789124", "review4");
 
 SELECT Review FROM feedback WHERE CourseID = "c1" AND StudentID = "s1";
 

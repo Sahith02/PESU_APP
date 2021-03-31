@@ -3,7 +3,6 @@ import mysql.connector
 
 class FeedBack:
 	def __init__(self, course, student, dbconn):
-		cur = dbconn.cursor()
 		self.CourseID = course
 		self.StudentID = student
 		self.Review = None
@@ -11,8 +10,8 @@ class FeedBack:
 	def ViewReview(self, dbconn):
 		cur = dbconn.cursor()
 		q = "SELECT * FROM FeedBack WHERE CourseID = %s AND StudentID = %s"
-		self.cur.execute(q, (self.CourseID, self.StudentID))
-		res = self.cur.fetchone()
+		cur.execute(q, (self.CourseID, self.StudentID))
+		res = cur.fetchone()
 		self.Review = res[2]
 		return self.Review
 	

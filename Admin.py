@@ -11,7 +11,7 @@ class Admin:
 	def __init__(self,db_conn,email = ""):
 		
 		cur = db_conn.cursor()
-		query = "SELECT id, name FROM admin WHERE email = %s"
+		query = "SELECT id, name FROM `admin` WHERE email = %s"
 		cur.execute(query, (email,))
 		result = cur.fetchone()
 		# update admin attributes from database
@@ -44,19 +44,7 @@ class Admin:
 			print(f"\nError while assigning Faculty-{facultyID} to Course-{courseID}\n")
 			return False
 
-	def GetFaculty(self,courseid,db_conn):
-		facultylist=[]
-		cur=db_conn.cursor()
-		query="SELECT facultyid FROM coufac WHERE courseid=%s"
-		cur.execute(query,(courseid))
-		results=cur.fetchall()
-		cur.close()
-		for result in results:
-			facultylist.append(result[0])
-		return facultylist
-
 	def ViewCourse(self,db_conn,id=""):
-		
 		cur=db_conn.cursor()
 		query="SELECT courseid FROM course"
 		cur.execute(query)
@@ -72,9 +60,9 @@ class Admin:
 		
 		if CourseTitle and Department and Faculties and Details and AVSummary:
 			try:
-				ID=str(uuid.uuid4())
+				ID=generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key()
 				cur = db_conn.cursor()
-				query="INSERT INTO course(id,title,dept,details,AVL) values(%s,%s,%s,%s,%s)"
+				query="INSERT INTO course(courseid,coursetitle,department,coursedetails,avl) values(%s,%s,%s,%s,%s)"
 				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary))
 				db_conn.commmit()
 				for facultyid in Faculties:
@@ -88,23 +76,20 @@ class Admin:
 		else:
 			return False
 
-	def EditCourse(self,db_conn=None,Id="",Title="",Facultiestobeadded=[],Details="",AVS=""):#dept can't change
+	def EditCourse(self,db_conn,Id="",Title="",Facultiestobeadded=[],Details="",AVS=""):#dept can't change
 		#faculties can only be added
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-
 		if Id:
 			cur=db_conn.cursor()
 			if Title:
-				query="UPDATE course SET title=%s WHERE id=%s"
+				query="UPDATE course SET coursetitle=%s WHERE courseid=%s"
 				cur.execute(query,(Title,Id))
 				db_conn.commit()
 			if Details:
-				query="UPDATE course SET details=%s WHERE id=%s"
+				query="UPDATE course SET coursedetails=%s WHERE courseid=%s"
 				cur.execute(query,(Details,Id))
 				db_conn.commit()
 			if AVS:
-				query="UPDATE course SET AVL=%s WHERE id=%s"
+				query="UPDATE course SET avl=%s WHERE courseid=%s"
 				cur.execute(query,(AVS,Id))
 				db_conn.commit()
 			cur.close()
@@ -163,10 +148,7 @@ class Admin:
 		else:
 			return
 	
-	def RemoveAnnouncement(self,db_conn=None,ID = None):
-		if not(db_conn):
-			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
-			
+	def RemoveAnnouncement(self,db_conn,ID = None):
 		if(ID == None):
 			return
 		else:

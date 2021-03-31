@@ -9,10 +9,10 @@ class Course():
         
         self.CourseID=CourseID #cant change it as it is primary key
         cur=db_conn.cursor()
-        query="SELECT coursetitle,department,coursedetails,avl FROM coursetable WHERE courseid=%s"
+        query="SELECT coursetitle,department,coursedetails,avl FROM course WHERE courseid=%s"
         cur.execute(query,(self.CourseID))
         result=cur.fetchone()
-        CourseTitle,dept,CourseDetails,AVSumm=result
+        CourseTitle,dept,CourseDetails,AVSumm = result
         self.CourseTitle=CourseTitle
         self.Department=dept #the dept the course belongs to
         self.CourseDetails=CourseDetails #a string of all details

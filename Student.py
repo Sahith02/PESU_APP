@@ -35,6 +35,11 @@ class Student():
                 query="UPDATE student SET `address`=%s WHERE srn=%s"
                 cur.execute(query,(address,self.srn))
                 db_conn.commit()
+            if phonenumber:
+                query="UPDATE student SET phonenumber=%s WHERE srn=%s"
+                cur.execute(query,(phonenumber,self.srn))
+                db_conn.commit()
+            cur.close()
 
 
     def ViewAnnouncements(self,db_conn):
