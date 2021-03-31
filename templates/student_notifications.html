@@ -44,8 +44,12 @@
 							<img src="https://www.gardendesign.com/pictures/images/675x529Max/site_3/helianthus-yellow-flower-pixabay_11863.jpg" class="notificationPicture" />
 						</div>
 						<div>
+							<p>Posted: {{ announcement.PostingTime.day }} - {{ announcement.PostingTime.month }} - {{ announcement.PostingTime.year }}, {{ announcement.PostingTime.hour }}:{{ announcement.PostingTime.minute }}</p>
 							<h2>{{ announcement.Title }}</h2>
 							<p>{{ announcement.Description }}</p>
+							{% if(announcement.HyperLink) %}
+								<a href = "{{ announcement.HyperLink }}">Attachment</a>
+							{% endif %}
 						</div>
 					</div>
 				</div>
