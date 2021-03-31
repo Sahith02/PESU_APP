@@ -4,14 +4,15 @@ class Faculty():
 	def __init__(self, email, dbconn):
 		self.cur = dbconn.cursor()
 		query = "SELECT * FROM Faculty WHERE email = %s"
-		cur.execute(query, (email,))
-		res = cur.fetchone()
-		self.FacultyID = res[0]
-		self.email = res[1]
-		self.ContactNumber = res[2]
-		self.Address = res[3]
-		self.DateOfJoining = res[4]
-		
+		self.cur.execute(query, (email,))
+		res = self.cur.fetchone()
+		if res:
+			self.FacultyID = res[0]
+			self.email = res[1]
+			self.ContactNumber = res[2]
+			self.Address = res[3]
+			self.DateOfJoining = res[4]
+
 	def EditDetails(self, email = None, ContactNumber = None, Address = None):
 		if ContactNumber:
 			query = "UPDATE Faculty SET ContactNumber = %s WHERE FacultyID = %s"
