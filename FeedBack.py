@@ -1,29 +1,28 @@
 import mysql.connector
-
 #FeedBack table -> CourseID, StudentID, Review
 
 class FeedBack:
-	def __init__(self, course, student):
+	def __init__(self, course, student, dbconn):
+		self.cur = dbconn.cursor()
 		self.CourseID = course
 		self.StudentID = student
 		self.Review = None
 	
-	def ViewReview(self, dbconn):
-		#cnx = mysql.connector.connect(host = "localhost", user = "root", database = "mydatabase")
-		cur = dbconn.cursor()
+	def ViewReview(self):
 		q = "SELECT * FROM FeedBack WHERE CourseID = %s AND StudentID = %s"
-		cur.execute(q, (self.CourseID, self.StudentID))
-		res = cur.fetchone()
+		self.cur.execute(q, (self.CourseID, self.StudentID))
+		res = self.cur.fetchone()
 		self.Review = res[2]
 		return self.Review
 	
 	def WriteReview(self, review, dbconn):
 		self.Review = review
 		try:
-			#cnx = mysql.connector.connect(host = "localhost", user = "root", database = "mydatabase")
-			cur = dbconn.cursor()
 			q = "INSERT INTO FeedBack VALUES(%s, %s, %s)"
-			cur.execute(q, (self.CourseID, self.StudentID, review))
+			self.cur.execute(q, (self.CourseID, self.StudentID, review))
 			return True
 		except:
 			return False
+
+	def __del__(self):
+		self.cur.close()
