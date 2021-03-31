@@ -3,17 +3,18 @@ from User import User
 from Admin import Admin
 from Student import Student
 from Faculty import Faculty
-
 import mysql.connector
 
 app = Flask(__name__, template_folder = "htmlfiles")
 
 @app.route('/')#whenever you land on this page, login function is called, only the landing page
 def login():
-	return render_template("loginpage.html")
+	return render_template("login_page.html")
 
 @app.route('/validate', methods=['POST'])
 def validate():
+	return redirect(url_for("student_home"))
+
 	result = request.form
 	email, password = result['email'].lower(),result['password']
 	if not(email):#connector.execute(query with %s,args in tuples) - Prevents SQL injections
@@ -33,6 +34,10 @@ def validate():
 			pass
 	else:
 		return redirect(url_for('login'))
+
+@app.route("/student_home", methods = ["GET", "POST"])
+def student_home():
+	return render_template("student_home.html")
 
 if __name__ == '__main__':
 	app.run(debug = True)
