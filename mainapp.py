@@ -16,20 +16,20 @@ def validate():
 	return redirect(url_for("student_courses"))
 
 	result = request.form
-	email, password = result['email'].lower(),result['password']
-	if not(email): # connector.execute(query with %s,args in tuples) - Prevents SQL injections
+	email, password = result['email'].lower(), result['password']
+	if(not email): # connector.execute(query with %s,args in tuples) - Prevents SQL injections
 		return redirect("http://localhost:5000")
-	newuser = User(email,password)
-	mysqlconnection = mysql.connector.connect(host = "localhost",port=3306, user = "root", database = "pesuapp")
+	newuser = User(email, password)
+	mysqlconnection = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
 	account_type = newuser.exists(mysqlconnection)
-	if account_type:
-		if account_type == "admin":
-			adminobj=Admin(mysqlconnection,email)
+	if(account_type):
+		if(account_type == "admin"):
+			adminobj = Admin(mysqlconnection, email)
 			pass
-		if account_type == 'student':
+		if(account_type == 'student'):
 			# return Student(email)
 			pass
-		if account_type == 'faculty':
+		if(account_type == 'faculty'):
 			# return Faculty(email)
 			pass
 	else:
@@ -45,7 +45,10 @@ def student_feedback():
 
 @app.route("/student_notifications", methods = ["GET", "POST"])
 def student_notifications():
-	return render_template("student_notifications.html")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "root", database = "pesuapp")
+	A1 = Admin(db_conn, "sahith02@yahoo.com")
+	all_announcements = A1.ViewAnnouncements(db_conn)
+	return render_template("student_notifications.html", all_announcements = all_announcements)
 
 
 if __name__ == '__main__':

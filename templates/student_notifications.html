@@ -5,6 +5,25 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../static/css/_macros.css" rel="stylesheet">
+		<style>
+			.noticationContainer {
+				padding: 10px;
+				margin-top: 20px;
+				background-color: white;
+				border-radius: 10px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+			}
+
+			.notificationPicture {
+				/* width: 150px; */
+				height: 100px;
+				max-width: 200px;
+				background-size: cover;
+				float: left;
+				margin-right: 15px;
+				border-radius: 15px;;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -17,6 +36,20 @@
 			<div class="contentContainer">
 				<h2>PESU App Notifications</h2>
 				<p>This is the template that we can use for all the pages in the webapp</p>
+				<!-- <p>{{ all_announcements }}</p> -->
+				{% for announcement in all_announcements %}
+				<div class="row">
+					<div class="noticationContainer">
+						<div style="">
+							<img src="https://www.gardendesign.com/pictures/images/675x529Max/site_3/helianthus-yellow-flower-pixabay_11863.jpg" class="notificationPicture" />
+						</div>
+						<div>
+							<h2>{{ announcement.Title }}</h2>
+							<p>{{ announcement.Description }}</p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
 			</div>
 		</div>
 	</body>
