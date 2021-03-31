@@ -5,6 +5,20 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../static/css/_macros.css" rel="stylesheet">
+		<style>
+			.innerContainer {
+				width: 90%;
+				padding: 20px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				border-radius: 10px;
+			}
+			.imageStyle {
+				width: 300px;
+				max-height: 200px;
+				margin: 20px;
+				float: right;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -15,9 +29,26 @@
 			{{ topnav() }}
 
 			<div class="contentContainer">
-				<h2>PESU App Notification</h2>
-				<p>This is the template that we can use for all the pages in the webapp</p>
-				<p>{{ announcement }}</p>
+				<div class="innerContainer">
+					<img src="{{ announcement.PictureLink }}" class="imageStyle" />
+					<h2>{{ announcement.Title }}</h2>
+					<p>
+						Posted:
+						<i>
+							{{ announcement.PostingTime.day }} - {{ announcement.PostingTime.month }} - {{ announcement.PostingTime.year }}, {{ announcement.PostingTime.hour }}:{{ announcement.PostingTime.minute }}
+						</i>
+					</p>
+					{% if(announcement.Location) %}
+						<p> Location:  {{ announcement.Location }} </p>
+					{% endif %}
+					<br>
+					<p>{{ announcement.Description | safe}}</p>
+					{% if(announcement.HyperLink) %}
+						<a href = "{{ announcement.HyperLink }}">Attachment</a>
+					{% endif %}
+					<br>
+					<br>
+				</div>
 			</div>
 		</div>
 	</body>

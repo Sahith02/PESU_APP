@@ -47,9 +47,6 @@
 							<p>Posted: {{ announcement.PostingTime.day }} - {{ announcement.PostingTime.month }} - {{ announcement.PostingTime.year }}, {{ announcement.PostingTime.hour }}:{{ announcement.PostingTime.minute }}</p>
 							<h2>{{ announcement.Title }}</h2>
 							<!-- <p>{{ announcement.Description | safe }}</p> -->
-							{% if(announcement.HyperLink) %}
-								<!-- <a href = "{{ announcement.HyperLink }}">Attachment</a> -->
-							{% endif %}
 							<a href="{{url_for('student_notification', ID = announcement.ID)}}">Read more...</a>
 						</div>
 					</div>
