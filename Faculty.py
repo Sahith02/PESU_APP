@@ -1,4 +1,4 @@
-#Faculty table will be FacultyID, email(1* key), ContactNumber, Address, DateofJoining
+#Faculty table will be FacultyID, Name, Email(1* key), ContactNumber, Address, DateofJoining
 
 class Faculty():
 	def __init__(self, email, dbconn):
@@ -8,10 +8,11 @@ class Faculty():
 		res = self.cur.fetchone()
 		if res:
 			self.FacultyID = res[0]
-			self.email = res[1]
-			self.ContactNumber = res[2]
-			self.Address = res[3]
-			self.DateOfJoining = res[4]
+			self.Name = res[1]
+			self.email = res[2]
+			self.ContactNumber = res[3]
+			self.Address = res[4]
+			self.DateOfJoining = res[5]
 
 	def EditDetails(self, email = None, ContactNumber = None, Address = None):
 		if ContactNumber:
@@ -21,10 +22,10 @@ class Faculty():
 			query = "UPDATE Faculty SET Address = %s WHERE FacultyID = %s"
 			self.cur.execute(query, (ContactNumber, self.FacultyID))
 		if email:
-			query = "UPDATE Faculty SET email = %s WHERE FacultyID = %s"
+			query = "UPDATE Faculty SET Email = %s WHERE FacultyID = %s"
 			self.cur.execute(query, (email , self.FacultyID))
 		
-	def CheckEventNotification(self,notifications):
+	def CheckEventNotification(self, notifications):
 		pass
 	
 	def __del__(self):
