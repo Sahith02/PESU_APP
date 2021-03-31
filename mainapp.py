@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from User import User
 from Admin import Admin
+from Announcement import Announcement
 from Student import Student
 from Faculty import Faculty
 import mysql.connector
@@ -50,6 +51,11 @@ def student_notifications():
 	all_announcements = A1.ViewAnnouncements(db_conn)
 	return render_template("student_notifications.html", all_announcements = all_announcements)
 
+@app.route("/student_notification/<string:ID>", methods = ["GET", "POST"])
+def student_notification(ID = ""):
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "root", database = "pesuapp")
+	announcement = Announcement(db_conn, ID)
+	return render_template("student_notification.html", announcement = announcement)
 
 if __name__ == '__main__':
 	app.run(debug = True)

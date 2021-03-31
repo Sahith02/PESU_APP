@@ -8,8 +8,8 @@ from Announcement import Announcement
 from Course import Course
 
 class Admin:
-	def __init__(self,db_conn=None,email = ""):
-		if not(db_conn):
+	def __init__(self, db_conn=None, email = ""):
+		if(not db_conn):
 			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
 
 		cur = db_conn.cursor()
@@ -129,8 +129,8 @@ class Admin:
 		else:
 			return False
 
-	def ViewAnnouncements(self,db_conn=None):
-		if not(db_conn):
+	def ViewAnnouncements(self, db_conn=None):
+		if(not db_conn):
 			db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
 
 		cur = db_conn.cursor()
@@ -140,7 +140,7 @@ class Admin:
 		all_announcements = []
 
 		for result in results:
-			all_announcements.append(Announcement(result[0]))
+			all_announcements.append(Announcement(db_conn, result[0]))
 		return all_announcements
 
 	def AddAnnouncement(self,db_conn=None, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):

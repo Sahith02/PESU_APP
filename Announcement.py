@@ -3,17 +3,17 @@ import mysql.connector
 
 
 class Announcement:
-	def __init__(self, ID = ""):
+	def __init__(self, db_conn, ID = ""):
 		# start database connection
-		self.db_conn = mysql.connector.connect(
-			host = "localhost",
-			port = 3306,
-			user = "root",
-			password = "root",
-			database = "pesuapp"
-		)
+		# self.db_conn = mysql.connector.connect(
+		# 	host = "localhost",
+		# 	port = 3306,
+		# 	user = "root",
+		# 	password = "root",
+		# 	database = "pesuapp"
+		# )
 		# query details from database
-		cur = self.db_conn.cursor()
+		cur = db_conn.cursor()
 		query = "SELECT id, title, location, description, picture_link, hyperlink, posting_time FROM announcement WHERE id = %s"
 		cur.execute(query, (ID,))
 		result = cur.fetchone()

@@ -50,6 +50,7 @@
 							{% if(announcement.HyperLink) %}
 								<!-- <a href = "{{ announcement.HyperLink }}">Attachment</a> -->
 							{% endif %}
+							<a href="{{url_for('student_notification', ID = announcement.ID)}}">Read more...</a>
 						</div>
 					</div>
 				</div>
