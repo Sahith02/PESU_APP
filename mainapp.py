@@ -35,9 +35,18 @@ def validate():
 	else:
 		return redirect(url_for('login'))
 
-@app.route("/student_home", methods = ["GET", "POST"])
-def student_home():
-	return render_template("student_home.html")
+@app.route("/student_courses", methods = ["GET", "POST"])
+def student_courses():
+	return render_template("student_courses.html")
+
+@app.route("/student_feedback", methods = ["GET", "POST"])
+def student_feedback():
+	return render_template("student_feedback.html")
+
+@app.route("/student_notifications", methods = ["GET", "POST"])
+def student_notifications():
+	return render_template("student_notifications.html")
+
 
 if __name__ == '__main__':
 	app.run(debug = True)
