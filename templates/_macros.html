@@ -1,0 +1,21 @@
+{% macro student_sidenav() %}
+
+<div id="mySidenav" class="sidenav">
+	<p class="sidenavheading">PES University</p>
+	<hr>
+	<a href="{{ url_for('student_courses') }}">Courses</a>
+	<a href="{{ url_for('student_feedback') }}">Feedback</a>
+	<a href="{{ url_for('student_notifications') }}">Notifications</a>
+</div>
+
+{% endmacro %}
+
+
+{% macro topnav() %}
+
+<div class="topnav">
+	<img src='/static/img/logoPesu.png' alt="User Image" class="logopesu">
+	<a href="">Logout</a>
+</div>
+
+{% endmacro %}

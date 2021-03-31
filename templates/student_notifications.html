@@ -1,0 +1,23 @@
+{% from "_macros.html" import student_sidenav, topnav %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="../static/css/_macros.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		{{ student_sidenav() }}
+
+		<div id="main">
+			{{ topnav() }}
+
+			<div class="contentContainer">
+				<h2>PESU App Notifications</h2>
+				<p>This is the template that we can use for all the pages in the webapp</p>
+			</div>
+		</div>
+	</body>
+</html> 
