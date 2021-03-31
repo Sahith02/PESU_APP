@@ -3,12 +3,13 @@ import mysql.connector
 
 class FeedBack:
 	def __init__(self, course, student, dbconn):
-		self.cur = dbconn.cursor()
+		cur = dbconn.cursor()
 		self.CourseID = course
 		self.StudentID = student
 		self.Review = None
 	
-	def ViewReview(self):
+	def ViewReview(self, dbconn):
+		cur = dbconn.cursor()
 		q = "SELECT * FROM FeedBack WHERE CourseID = %s AND StudentID = %s"
 		self.cur.execute(q, (self.CourseID, self.StudentID))
 		res = self.cur.fetchone()
@@ -16,13 +17,12 @@ class FeedBack:
 		return self.Review
 	
 	def WriteReview(self, review, dbconn):
+		cur = dbconn.cursor()
 		self.Review = review
 		try:
 			q = "INSERT INTO FeedBack VALUES(%s, %s, %s)"
-			self.cur.execute(q, (self.CourseID, self.StudentID, review))
+			cur.execute(q, (self.CourseID, self.StudentID, review))
+			dbconn.commit()
 			return True
 		except:
 			return False
-
-	def __del__(self):
-		self.cur.close()
