@@ -123,7 +123,7 @@ class Admin:
 		all_announcements = []
 
 		for result in results:
-			all_announcements.append(Announcement(result[0]))
+			all_announcements.append(Announcement(db_conn, result[0]))
 		return all_announcements
 
 	def AddAnnouncement(self,db_conn, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
