@@ -7,7 +7,7 @@
 		<link href="../static/css/_macros.css" rel="stylesheet">
 		<style>
 			.noticationContainer {
-				padding: 10px;
+				padding: 20px 10px;
 				margin-top: 20px;
 				background-color: white;
 				border-radius: 10px;
@@ -21,7 +21,7 @@
 				background-size: cover;
 				float: left;
 				margin-right: 15px;
-				border-radius: 15px;;
+				border-radius: 15px;
 			}
 		</style>
 	</head>
@@ -34,21 +34,21 @@
 			{{ topnav() }}
 
 			<div class="contentContainer">
-				<h2>PESU App Notifications</h2>
-				<p>This is the template that we can use for all the pages in the webapp</p>
+				<h2 style="margin-top: 40px;">PESU App Notifications</h2>
+				<!-- <p>Below are all the notifications</p> -->
 				<!-- <p>{{ all_announcements }}</p> -->
 				{% for announcement in all_announcements %}
 				<div class="row">
 					<div class="noticationContainer">
 						<div style="">
-							<img src="https://www.gardendesign.com/pictures/images/675x529Max/site_3/helianthus-yellow-flower-pixabay_11863.jpg" class="notificationPicture" />
+							<img src="{{ announcement.PictureLink }}" class="notificationPicture" />
 						</div>
 						<div>
 							<p>Posted: {{ announcement.PostingTime.day }} - {{ announcement.PostingTime.month }} - {{ announcement.PostingTime.year }}, {{ announcement.PostingTime.hour }}:{{ announcement.PostingTime.minute }}</p>
 							<h2>{{ announcement.Title }}</h2>
-							<p>{{ announcement.Description }}</p>
+							<!-- <p>{{ announcement.Description | safe }}</p> -->
 							{% if(announcement.HyperLink) %}
-								<a href = "{{ announcement.HyperLink }}">Attachment</a>
+								<!-- <a href = "{{ announcement.HyperLink }}">Attachment</a> -->
 							{% endif %}
 						</div>
 					</div>
