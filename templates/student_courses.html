@@ -8,9 +8,10 @@
 		<style>
 			.coursestable {
 				border-collapse: collapse;
-				margin: 25px 0;
-				font-size: 0.9em;
-				min-width: 400px;
+				margin: auto;
+				margin-top: 50px;
+				font-size: 0.95em;
+				min-width: 650px;
 				border-radius: 5px 5px 0 0;
 				overflow: hidden;
 				box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -18,14 +19,15 @@
 			.coursestable thead tr {
 				background-color: rgb(57, 54, 241);
 				color: #ffffff;
-				text-align: left;
+				text-align: center;
 			}
 			.coursestable th,.coursestable td {
-				padding: 12px 15px;
+				padding: 16px 15px;
 			}
 			
 			.coursestable tbody tr {
 				border-bottom: 1px solid #dddddd;
+				text-align: center;
 			}
 
 			.coursestable tbody tr:nth-of-type(even) {
@@ -56,8 +58,9 @@
 				<table class="coursestable">
 					<thead>
 						<tr>
-							<th>CourseId</th>
+							<th>CourseID</th>
 							<th>Title</th>
+							<th>Department</th>
 							<th>Summary</th>
 						</tr>
 					</thead>
@@ -66,6 +69,7 @@
 						<tr>
 							<td>{{ course.CourseID }}</td>
 							<td>{{ course.CourseTitle }}</td>
+							<td>{{ course.Department }}</td>
 							<td><a href="{{ course.AVSummary }}">Click here</a></td>
 						</tr>
 					</tbody>
