@@ -8,7 +8,7 @@ import mysql.connector
 from passlib.hash import sha256_crypt
 
 class User:
-	def __init__(self, password, email):
+	def __init__(self,email, password):
 		self.Password = password
 		self.EmailID = email.lower()
 	
