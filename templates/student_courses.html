@@ -5,6 +5,37 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../static/css/_macros.css" rel="stylesheet">
+		<style>
+			.coursestable {
+				border-collapse: collapse;
+				margin: 25px 0;
+				font-size: 0.9em;
+				min-width: 400px;
+				border-radius: 5px 5px 0 0;
+				overflow: hidden;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+			}
+
+			.coursestable thead tr {
+				background-color: rgb(57, 54, 241);
+				color: #ffffff;
+				text-align: left;
+			}
+			.coursestable th,.coursestable td {
+				padding: 12px 15px;
+			}
+			.coursestable tbody tr {
+				border-bottom: 1px solid #dddddd;
+			}
+
+			.coursestable tbody tr:nth-of-type(even) {
+				background-color: #f3f3f3;
+			}
+
+			.coursestable tbody tr:last-of-type {
+				border-bottom: 2px solid rgb(57, 54, 241);
+			}
+		</style>
 	</head>
 
 	<body>
@@ -15,8 +46,25 @@
 			{{ topnav() }}
 
 			<div class="contentContainer">
-				<h2>PESU App Courses</h2>
-				<p>This is the template that we can use for all the pages in the webapp</p>
+				<h2 style="margin-top: 40px;">Courses Enrolled</h2>
+				<table class="coursestable">
+					<thead>
+						<tr>
+							<th>CourseId</th>
+							<th>Title</th>
+							<th>Summary</th>
+						</tr>
+					</thead>
+					{% for course in courses_enrolled %}
+					<tbody>
+						<tr>
+							<td>{{ course.CourseID }}</td>
+							<td>{{ course.CourseTitle }}</td>
+							<td><a href="{{ course.AVSummary }}">Click here</a></td>
+						</tr>
+					</tbody>
+					{% endfor %}
+				</table>
 			</div>
 		</div>
 	</body>

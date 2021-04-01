@@ -38,7 +38,10 @@ def validate():
 
 @app.route("/student_courses", methods = ["GET", "POST"])
 def student_courses():
-	return render_template("student_courses.html")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
+	S1 = Student(db_conn, "abcd@gmail.com")
+	courses_enrolled = S1.ViewCourses(db_conn)
+	return render_template("student_courses.html", courses_enrolled = courses_enrolled)
 
 @app.route("/student_feedback", methods = ["GET", "POST"])
 def student_feedback():
@@ -46,14 +49,14 @@ def student_feedback():
 
 @app.route("/student_notifications", methods = ["GET", "POST"])
 def student_notifications():
-	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "root", database = "pesuapp")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
 	A1 = Admin(db_conn, "sahith02@yahoo.com")
 	all_announcements = A1.ViewAnnouncements(db_conn)
 	return render_template("student_notifications.html", all_announcements = all_announcements)
 
 @app.route("/student_notification/<string:ID>", methods = ["GET", "POST"])
 def student_notification(ID = ""):
-	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "root", database = "pesuapp")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
 	announcement = Announcement(db_conn, ID)
 	return render_template("student_notification.html", announcement = announcement)
 
