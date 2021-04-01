@@ -11,7 +11,7 @@ class Student():
         #     db_conn=mysql.connector.connect(host = "localhost",port = 3306,user = "root",database = "pesuapp")
         cur=db_conn.cursor()
         query="SELECT studname,srn,pgm,`address`,phonenumber,branch FROM student WHERE emailid=%s"
-        cur.execute(query,(email))
+        cur.execute(query,(email,))
         res=cur.fetchone()
         if res:
             self.email=email
@@ -20,7 +20,7 @@ class Student():
     def ViewCourses(self,db_conn):
         cur=db_conn.cursor()
         query="SELECT courseid FROM stucou WHERE studentid=%s"
-        cur.execute(query,(self.srn))
+        cur.execute(query,(self.srn,))
         res=cur.fetchall()
         cur.close()
         courses=[]
@@ -33,11 +33,11 @@ class Student():
             cur=db_conn.cursor()
             if address:
                 query="UPDATE student SET `address`=%s WHERE srn=%s"
-                cur.execute(query,(address,self.srn))
+                cur.execute(query,(address,self.srn,))
                 db_conn.commit()
             if phonenumber:
                 query="UPDATE student SET phonenumber=%s WHERE srn=%s"
-                cur.execute(query,(phonenumber,self.srn))
+                cur.execute(query,(phonenumber,self.srn,))
                 db_conn.commit()
             cur.close()
 

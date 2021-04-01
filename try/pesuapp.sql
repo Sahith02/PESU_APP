@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2021 at 08:17 PM
+-- Generation Time: Apr 01, 2021 at 09:12 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.29
 
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin`
 --
 
-create database pesuapp;
+create DATABASE pesuapp;
 use pesuapp;
 
 CREATE TABLE `admin` (
@@ -216,6 +216,36 @@ INSERT INTO `student` (`emailid`, `studname`, `srn`, `pgm`, `address`, `phonenum
 ('abcdef@gmail.com', 'abcdef', '3456789123', 'BTECH', 'kolkata-42', '1234567890', 'Mech'),
 ('abcdefg@gmail.com', 'abcdefg', '3456789124', 'BTECH', 'hyderabad-7', '1234567890', 'CSE');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `email` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `account_type` varchar(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`email`, `password`, `account_type`) VALUES
+('abcd@gmail.com', '$5$rounds=535000$WvBiO5VEAtVXe/zf$9eCrSEV1WU3cIJdYF8hu6xeCoTYsbafrCeso/60.N6C', 'student'),
+('abcde@gmail.com', '$5$rounds=535000$Cpavc78gsOImhyjy$ASx00peaIhHiwrpmz33qwy0AOQr7Os0ZT.5d6suGF9.', 'student'),
+('abcdef@gmail.com', '$5$rounds=535000$t0TR8gLWbKRsaOoM$f0ROZOha/4TuFgSmbgnYXh7XkYdXQI5/4o.8ei1tAO2', 'student'),
+('abcdefg@gmail.com', '$5$rounds=535000$anS6Yb8DXUnz58za$39ifX.zU6u1CyagOo2Wh813o2xYhafq06cYm7Xz7l32', 'student'),
+('ahith02.cods@gmail.com', '$5$rounds=535000$dcMD8X5luDL6595X$ZljgpNgc9t9aFpW0ujCXgMA0IB9R//hoDrhgybWb6Z4', 'faculty'),
+('ahith02@gmail.com', '$5$rounds=535000$ThsxoXxmsN.soL99$7sc5IR5lcMArrR.74TqZHcd/FEkC0UN48SfGz52Ln62', 'faculty'),
+('ahith02@yahoo.com', '$5$rounds=535000$EeFr7Ukxeum8Cq98$bm4mIvJWpYDrplCvElGqPdhU/Xh7KVFK.XE5JRPHplC', 'faculty'),
+('ahithk02@gmail.com', '$5$rounds=535000$B0eoXOpARWJQUP/7$DHx0gRAreIMNy.Wm1hX3fDHi2n77MaHDDdO6oHoIGID', 'faculty'),
+('sahith02.cods@gmail.com', '$5$rounds=535000$tsNuJNwmt68L3pYa$kghyV48OPSXnkYB3SgIiCJkzvDXOXRotqYVQPL3HzW8', 'admin'),
+('sahith02@gmail.com', '$5$rounds=535000$.SEYq/T5mWYBflVR$Lx.OMNSCA7j4F1ADk.LjLEwYAvfdFsSOolINpRcoHXD', 'admin'),
+('sahith02@yahoo.com', '$5$rounds=535000$W2oBb5SV0JEr/uft$GkkV.G2vuKmeQz7H.fgqd/L4pfoZzhuBOQ0YgoJ7GZ9', 'admin'),
+('sahithk02@gmail.com', '$5$rounds=535000$E6fm4aLIqeCkV9Om$rCU2k19s6nKv6UZjyxUZMwOq84TgHIZuQZC3GycCfe4', 'admin');
+
 --
 -- Indexes for dumped tables
 --
@@ -269,6 +299,12 @@ ALTER TABLE `stucou`
 --
 ALTER TABLE `student`
   ADD PRIMARY KEY (`emailid`,`srn`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

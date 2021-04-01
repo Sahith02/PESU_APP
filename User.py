@@ -5,24 +5,24 @@
 #If not -> return False
 
 import mysql.connector
+from passlib.hash import sha256_crypt
 
 class User:
 	def __init__(self, password, email):
-		self.Password = hash(password)
+		self.Password = password
 		self.EmailID = email.lower()
 	
 	def exists(self, databaseconn):
-		#return True
 		cur = databaseconn.cursor()
-		sqlquery = ("SELECT user_type from users where EmailID = %s and Password = %s")
-		cur.execute(sqlquery, (self.EmailID, self.Password))
-		user = cur.fetchone()#will return a tuple a record in database: database order: emailID, pwd and typeofuser
-		cur.close()
-		if user:
-			account_type = user[-1].lower()
-			return account_type
-		else:
-			return False
+		query = "SELECT `password`,`account_type` FROM users WHERE email=%s"
+		cur.execute(query,(self.EmailID,))
+		result=cur.fetchone()
+		if result:
+			if (sha256_crypt.verify(self.Password,result[0])):
+				return result[1]
+			else:
+				return False
+		return False		
 
 	def login(self):
 		pass

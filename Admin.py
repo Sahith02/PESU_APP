@@ -36,7 +36,7 @@ class Admin:
 		try:
 			cursor=db_conn.cursor()
 			query="INSERT INTO coufac(courseid,facultyid) values (%s,%s)"
-			cursor.execute(query,courseID,facultyID)
+			cursor.execute(query,(courseID,facultyID,))
 			db_conn.commit()
 			cursor.close()
 			return True
@@ -63,7 +63,7 @@ class Admin:
 				ID=generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key()
 				cur = db_conn.cursor()
 				query="INSERT INTO course(courseid,coursetitle,department,coursedetails,avl) values(%s,%s,%s,%s,%s)"
-				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary))
+				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary,))
 				db_conn.commmit()
 				for facultyid in Faculties:
 					k=self.AssignFacultyToCourse(facultyid,ID,db_conn)
@@ -82,15 +82,15 @@ class Admin:
 			cur=db_conn.cursor()
 			if Title:
 				query="UPDATE course SET coursetitle=%s WHERE courseid=%s"
-				cur.execute(query,(Title,Id))
+				cur.execute(query,(Title,Id,))
 				db_conn.commit()
 			if Details:
 				query="UPDATE course SET coursedetails=%s WHERE courseid=%s"
-				cur.execute(query,(Details,Id))
+				cur.execute(query,(Details,Id,))
 				db_conn.commit()
 			if AVS:
 				query="UPDATE course SET avl=%s WHERE courseid=%s"
-				cur.execute(query,(AVS,Id))
+				cur.execute(query,(AVS,Id,))
 				db_conn.commit()
 			cur.close()
 			if Facultiestobeadded:
@@ -116,7 +116,7 @@ class Admin:
 		PostingTime = datetime.datetime.now() if (PostingTime == None) else PostingTime
 		cur = db_conn.cursor()
 		query = "INSERT INTO `pesuapp`.`announcement` (`id`, `title`, `location`, `description`, `picture_link`, `hyperlink`, `posting_time`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
-		cur.execute(query, (ID, Title, Location, Description, PictureLink, HyperLink, PostingTime))
+		cur.execute(query, (ID, Title, Location, Description, PictureLink, HyperLink, PostingTime,))
 		db_conn.commit()
 		cur.close()
 
@@ -127,23 +127,23 @@ class Admin:
 			if(Title):
 				query = "UPDATE announcement SET title = %s WHERE id = %s"
 				# print(Title, ID)
-				cur.execute(query, (Title, ID))
+				cur.execute(query, (Title, ID,))
 				db_conn.commit()
 			if(Location):
 				query = "UPDATE announcement SET location = %s WHERE id = %s"
-				cur.execute(query, (Location, ID))
+				cur.execute(query, (Location, ID,))
 				db_conn.commit()
 			if(Description):
 				query = "UPDATE announcement SET description = %s WHERE id = %s"
-				cur.execute(query, (Description, ID))
+				cur.execute(query, (Description, ID,))
 				db_conn.commit()
 			if(PictureLink):
 				query = "UPDATE announcement SET picture_link = %s WHERE id = %s"
-				cur.execute(query, (PictureLink, ID))
+				cur.execute(query, (PictureLink, ID,))
 				db_conn.commit()
 			if(HyperLink):
 				query = "UPDATE announcement SET hyperlink = %s WHERE id = %s"
-				cur.execute(query, (HyperLink, ID))
+				cur.execute(query, (HyperLink, ID,))
 				db_conn.commit()
 		else:
 			return

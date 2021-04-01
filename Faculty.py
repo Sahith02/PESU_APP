@@ -21,24 +21,24 @@ class Faculty():
 		self.cur=db_conn.cursor()
 		if ContactNumber:
 			query = "UPDATE Faculty SET ContactNumber = %s WHERE FacultyID = %s"
-			self.cur.execute(query, (ContactNumber,self.FacultyID))
+			self.cur.execute(query, (ContactNumber,self.FacultyID,))
 			db_conn.commit()
 		if Address:
 			query = "UPDATE Faculty SET Address = %s WHERE FacultyID = %s"
-			self.cur.execute(query, (ContactNumber, self.FacultyID))
+			self.cur.execute(query, (ContactNumber, self.FacultyID,))
 			db_conn.commit()
 	
 	def GetStats(self,db_conn):#to get all the courses the faculty teaches and also total number of students learning that course(not under the faculty)
 		cur=db_conn.cursor()
 		query="SELECT courseid FROM coufac WHERE facultyid=%s"
-		cur.execute(query,(self.FacultyID))
+		cur.execute(query,(self.FacultyID,))
 		res=cur.fetchall()
 		nofcourses=len(res)
 		courses=[]
 		for i in res:
 			courseid=i[0]
 			query="SELECT count(*) as ncs FROM stucou WHERE courseid=%s"
-			cur.execute(query,(courseid))
+			cur.execute(query,(courseid,))
 			result=cur.fetchone()[0]
 			courses.append(Course(db_conn,courseid),result)
 		cur.close()

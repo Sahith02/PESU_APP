@@ -10,7 +10,7 @@ class FeedBack:
 	def ViewReview(self, dbconn):
 		cur = dbconn.cursor()
 		q = "SELECT * FROM FeedBack WHERE CourseID = %s AND StudentID = %s"
-		cur.execute(q, (self.CourseID, self.StudentID))
+		cur.execute(q, (self.CourseID, self.StudentID,))
 		res = cur.fetchone()
 		self.Review = res[2]
 		return self.Review
@@ -20,7 +20,7 @@ class FeedBack:
 		self.Review = review
 		try:
 			q = "INSERT INTO FeedBack VALUES(%s, %s, %s)"
-			cur.execute(q, (self.CourseID, self.StudentID, review))
+			cur.execute(q, (self.CourseID, self.StudentID, review,))
 			dbconn.commit()
 			return True
 		except:
