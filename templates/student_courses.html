@@ -61,7 +61,7 @@
 							<th>CourseID</th>
 							<th>Title</th>
 							<th>Department</th>
-							<th>Summary</th>
+							<th>AV Link</th>
 						</tr>
 					</thead>
 					{% for course in courses_enrolled %}
@@ -70,7 +70,7 @@
 							<td>{{ course.CourseID }}</td>
 							<td>{{ course.CourseTitle }}</td>
 							<td>{{ course.Department }}</td>
-							<td><a href="{{ course.AVSummary }}">Click here</a></td>
+							<td><a href="{{ course.AVSummary }}" target="_blank" rel="noopener noreferrer"">Click here</a></td>
 						</tr>
 					</tbody>
 					{% endfor %}
