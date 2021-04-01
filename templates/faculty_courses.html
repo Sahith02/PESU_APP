@@ -1,0 +1,97 @@
+{% from "_macros.html" import faculty_sidenav, topnav %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="../static/css/_macros.css" rel="stylesheet">
+		<style>
+			.card {
+				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+				transition: 0.3s;
+				border-radius: 5px;
+				margin:auto;
+			}
+			.card:hover {
+			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+			}
+
+			.container {
+			padding: 2px 16px;
+			}
+
+			.coursestable {
+				border-collapse: collapse;
+				margin: auto;
+				margin-top: 30px;
+				margin-bottom: 10px;
+				font-size: 0.95em;
+				min-width: 650px;
+				border-radius: 5px 5px 0 0;
+				overflow: hidden;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+			}
+			.coursestable thead tr {
+				background-color: rgb(57, 54, 241);
+				color: #ffffff;
+				text-align: center;
+			}
+			.coursestable th,.coursestable td {
+				padding: 16px 15px;
+			}
+			
+			.coursestable tbody tr {
+				border-bottom: 1px solid #dddddd;
+				text-align: center;
+			}
+
+			.coursestable tbody tr:nth-of-type(even) {
+				background-color: #f3f3f3;
+			}
+
+			.coursestable tbody tr:last-of-type {
+				border-bottom: 2px solid rgb(57, 54, 241);
+			}
+
+			.coursestable tbody tr:hover {
+				background-color: #f5f5f5;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		{{ faculty_sidenav() }}
+
+		<div id="main">
+			{{ topnav() }}
+
+			<div class="contentContainer">
+				<h2 style="margin-top: 40px;">Courses Teaching</h2>
+				<div class="card">
+					<div class="container">
+					  <h4 style="text-align: center;"><b>Number of Courses Being Taught: {{number_of_courses}}</b></h4>
+					  <table class="coursestable">
+						<thead>
+							<tr>
+								<th>Course ID</th>
+								<th>Course Name</th>
+								<th>Number of students studying</th>
+							</tr>
+						</thead>
+						  {% for tuple in course_list %}
+						  	<tbody>
+								<tr>
+									<td>{{tuple[0].CourseID}}</td>
+									<td>{{tuple[0].CourseTitle}}</td>
+									<td>{{tuple[1]}}</td>
+								</tr>
+							</tbody>
+						  {% endfor %}
+					  </table>
+					</div>
+				  </div>
+			</div>
+		</div>
+	</body>
+</html> 

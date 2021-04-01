@@ -4,6 +4,7 @@
 
 import mysql.connector
 from Course import Course#used to get the courses
+from Announcement import Announcement
 
 class Student():
     def __init__(self,db_conn,email):
@@ -43,7 +44,14 @@ class Student():
 
 
     def ViewAnnouncements(self,db_conn):
-        pass
+        cur = db_conn.cursor()
+        query = "SELECT id FROM announcement ORDER BY posting_time DESC"
+        cur.execute(query)
+        results = cur.fetchall()
+        all_announcements = []
+        for result in results:
+            all_announcements.append(Announcement(db_conn, result[0]))
+        return all_announcements
     
     def GiveCourseFeedback(self,db_conn):
         pass

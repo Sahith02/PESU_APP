@@ -1,0 +1,58 @@
+{% from "_macros.html" import faculty_sidenav, topnav %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="../static/css/_macros.css" rel="stylesheet">
+		<style>
+			.noticationContainer {
+				padding: 20px 10px;
+				margin-top: 20px;
+				background-color: white;
+				border-radius: 10px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+			}
+
+			.notificationPicture {
+				/* width: 150px; */
+				height: 100px;
+				max-width: 200px;
+				background-size: cover;
+				float: left;
+				margin-right: 15px;
+				border-radius: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		{{ faculty_sidenav() }}
+
+		<div id="main">
+			{{ topnav() }}
+
+			<div class="contentContainer">
+				<h2 style="margin-top: 40px;">PESU App Notifications</h2>
+				<!-- <p>Below are all the notifications</p> -->
+				<!-- <p>{{ all_announcements }}</p> -->
+				{% for announcement in all_announcements %}
+				<div class="row">
+					<div class="noticationContainer">
+						<div style="">
+							<img src="{{ announcement.PictureLink }}" class="notificationPicture" />
+						</div>
+						<div>
+							<p>Posted: {{ announcement.PostingTime.day }} - {{ announcement.PostingTime.month }} - {{ announcement.PostingTime.year }}, {{ announcement.PostingTime.hour }}:{{ announcement.PostingTime.minute }}</p>
+							<h2>{{ announcement.Title }}</h2>
+							<!-- <p>{{ announcement.Description | safe }}</p> -->
+							<a href="{{url_for('faculty_notification', ID = announcement.ID)}}">Read more...</a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</body>
+</html> 

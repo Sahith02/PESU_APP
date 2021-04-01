@@ -10,6 +10,17 @@
 
 {% endmacro %}
 
+{% macro faculty_sidenav() %}
+
+<div id="mySidenav" class="sidenav">
+	<p class="sidenavheading">PES University</p>
+	<hr>
+	<a href="{{ url_for('faculty_courses') }}">Courses Taught</a>
+	<a href="{{ url_for('faculty_notifications') }}">Notifications</a>
+</div>
+
+{% endmacro %}
+
 
 {% macro topnav() %}
 

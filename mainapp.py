@@ -38,27 +38,54 @@ def validate():
 
 @app.route("/student_courses", methods = ["GET", "POST"])
 def student_courses():
-	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	S1 = Student(db_conn, "abcd@gmail.com")
 	courses_enrolled = S1.ViewCourses(db_conn)
 	return render_template("student_courses.html", courses_enrolled = courses_enrolled)
 
+@app.route("/sendfeedback",methods=["POST","GET"])
+def sendfeedback():
+	pass
+
 @app.route("/student_feedback", methods = ["GET", "POST"])
 def student_feedback():
-	return render_template("student_feedback.html")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	S1 = Student(db_conn,"abcd@gmail.com")
+	courses_enrolled = S1.ViewCourses(db_conn)
+	return render_template("student_feedback.html",studid=S1.srn,courses_enrolled=courses_enrolled)
 
 @app.route("/student_notifications", methods = ["GET", "POST"])
 def student_notifications():
-	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
-	A1 = Admin(db_conn, "sahith02@yahoo.com")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	A1 = Student(db_conn, "abcd@gmail.com")
 	all_announcements = A1.ViewAnnouncements(db_conn)
 	return render_template("student_notifications.html", all_announcements = all_announcements)
 
 @app.route("/student_notification/<string:ID>", methods = ["GET", "POST"])
 def student_notification(ID = ""):
-	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root",database = "pesuapp")
 	announcement = Announcement(db_conn, ID)
 	return render_template("student_notification.html", announcement = announcement)
+
+@app.route("/faculty_courses",methods=["GET","POST"])
+def faculty_courses():
+	db_conn=mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root",database = "pesuapp")
+	F1=Faculty(db_conn,"ahith02@gmail.com")
+	number_of_courses,course_list=F1.GetStats(db_conn)
+	return render_template("faculty_courses.html",number_of_courses=number_of_courses,course_list=course_list)
+
+@app.route("/faculty_notifications", methods = ["GET", "POST"])
+def faculty_notifications():
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	A1 = Faculty(db_conn, "ahith02@gmail.com")
+	all_announcements = A1.ViewAnnouncements(db_conn)
+	return render_template("faculty_notifications.html", all_announcements = all_announcements)
+
+@app.route("/faculty_notification/<string:ID>", methods = ["GET", "POST"])
+def faculty_notification(ID = ""):
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root",database = "pesuapp")
+	announcement = Announcement(db_conn, ID)
+	return render_template("faculty_notification.html", announcement = announcement)
 
 if __name__ == '__main__':
 	app.run(debug = True)

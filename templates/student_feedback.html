@@ -5,8 +5,75 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../static/css/_macros.css" rel="stylesheet">
-	</head>
+		<style>
+			.coursestable {
+				border-collapse: collapse;
+				margin: auto;
+				margin-top: 50px;
+				font-size: 0.95em;
+				min-width: 650px;
+				border-radius: 5px 5px 0 0;
+				overflow: hidden;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 
+			}
+			.coursestable thead tr {
+				background-color: rgb(57, 54, 241);
+				color: #ffffff;
+				text-align: center;
+			}
+			.coursestable th,.coursestable td {
+				padding: 16px 15px;
+			}
+			
+			.coursestable tbody tr {
+				border-bottom: 1px solid #dddddd;
+				text-align: center;
+			}
+
+			.coursestable tbody tr:nth-of-type(even) {
+				background-color: #f3f3f3;
+			}
+
+			.coursestable tbody tr:last-of-type {
+				border-bottom: 2px solid rgb(57, 54, 241);
+			}
+
+			.coursestable tbody tr:hover {
+				background-color: #f5f5f5;
+			}
+			.registerbtn {
+				background-color: rgb(67, 67, 181);
+				color: white;
+				padding: 16px 20px;
+				margin: auto;
+				display:block;
+				border: none;
+				cursor: pointer;
+				width: 20%;
+				opacity: 0.9;
+				font-size: 16px;
+			}
+
+			.registerbtn:hover {
+				opacity: 1;
+			}
+
+			textarea{
+				background:white;
+				color:black;
+				border-color:royalblue;
+				resize: none;
+				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			}
+		
+			::placeholder{
+				color:black;
+				opacity: 0.7;
+			}
+			
+		</style>
+	</head>
 	<body>
 
 		{{ student_sidenav() }}
@@ -15,8 +82,29 @@
 			{{ topnav() }}
 
 			<div class="contentContainer">
-				<h2>PESU App Feedback</h2>
-				<p>This is the template that we can use for all the pages in the webapp</p>
+				<h2 style="margin-top: 40px;">Course Feedback</h2>
+				<form action="{{url_for('sendfeedback')}}" method="POST"></form>
+					<table class="coursestable">
+						<thead>
+							<tr>
+								<th>CourseID</th>
+								<th>CourseTitle</th>
+								<th>Your Review</th>
+							</tr>
+						</thead>
+						{% for course in courses_enrolled %}
+						<tbody>
+							<tr>
+								<td>{{course.CourseID}}</td>
+								<td>{{course.CourseTitle}}</td>
+								<td><textarea class="text" name="{{course.CourseID}}" placeholder="Type your review in less than 500 words" rows="4" cols="50"></textarea></td>
+							</tr>
+						</tbody>
+						{% endfor %}
+					</table>
+					<br>
+					<button type="submit" class="registerbtn" >Send Review</button>
+				</form>
 			</div>
 		</div>
 	</body>
