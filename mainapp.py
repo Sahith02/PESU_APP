@@ -170,6 +170,46 @@ def faculty_notification(ID = ""):
 	announcement = Announcement(db_conn, ID)
 	return render_template("faculty_notification.html", announcement = announcement)
 
+@app.route("/admin_courses",methods=["GET","POST"])
+def admin_courses():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	cur=db_conn.cursor()
+	query="SELECT courseid,coursetitle FROM course"
+	cur.execute(query)
+	res=cur.fetchall()
+	return render_template("admin_courses.html", courses = res)
+
+@app.route("/courseadd",methods=["GET","POST"])
+def courseadd():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	result=request.form
+	id,title,dept,avl,details,faculties=result['CourseID'],result['CourseTitle'],result['Department'],result['AVL'],result['CourseDetails'],result['FID']
+	faculties=faculties.split(",")
+	faculties=[x.strip() for x in faculties]
+	A1=Admin(db_conn,session['email'])
+	k=A1.AddCourse(db_conn,id,title,dept,faculties,details,avl)
+
+	#for pushing to courses site
+	cur=db_conn.cursor()
+	query="SELECT courseid,coursetitle FROM course"
+	cur.execute(query)
+	res=cur.fetchall()
+	if k[0]:
+		return render_template("admin_courses.html",courses=res,success="Successfully Added")
+	else:
+		return render_template("admin_courses.html",courses=res,error=k[1])
+
+
 @app.route("/add_course",methods=["GET","POST"])
 def add_course():
 	try:
@@ -177,8 +217,33 @@ def add_course():
 			return redirect(url_for("logout"))
 	except:
 		return redirect(url_for("logout"))
+	#db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return render_template("add_course.html")
+
+@app.route("/courseedit",methods=["GET","POST"])
+def courseedit():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
-	return "hello"
+	result=request.form
+	id,title,avl,details,faculties=result['CourseID'],result['CourseTitle'],result['AVL'],result['CourseDetails'],result['FID']
+	faculties=faculties.split(",")
+	faculties=[x.strip() for x in faculties]
+	A1=Admin(db_conn,session['email'])
+	k=A1.EditCourse(db_conn,id,title,faculties,details,avl)
+	
+	#for pushing to courses site
+	cur=db_conn.cursor()
+	query="SELECT courseid,coursetitle FROM course"
+	cur.execute(query)
+	res=cur.fetchall()
+	if k[0]:
+		return render_template("admin_courses.html",courses=res,success="Successfully Added")
+	else:
+		return render_template("admin_courses.html",courses=res,error=k[1])
 
 @app.route("/edit_course",methods=["GET","POST"])
 def edit_course():
@@ -187,8 +252,8 @@ def edit_course():
 			return redirect(url_for("logout"))
 	except:
 		return redirect(url_for("logout"))
-	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
-	return "hello"
+	#db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return render_template("edit_course.html")
 
 @app.route("/admin_notifications", methods = ["GET", "POST"])
 def admin_notifications():

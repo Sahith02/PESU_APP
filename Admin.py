@@ -55,31 +55,41 @@ class Admin:
 			courses=[Course(db_conn,x[0]) for x in res]
 		return courses
 
-	def AddCourse(self,db_conn,CourseTitle="",Department="",Faculties=[],Details="",AVSummary=""):
+	def AddCourse(self,db_conn,ID,CourseTitle="",Department="",Faculties=[],Details="",AVSummary=""):
 		#db_conn is the database connection, Faculties is list of faculty ids
 		
-		if CourseTitle and Department and Faculties and Details and AVSummary:
+		if ID and CourseTitle and Department and Faculties and Details and AVSummary:
 			try:
-				ID=generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key()
 				cur = db_conn.cursor()
+				query="SELECT * FROM course WHERE courseid=%s"
+				cur.execute(query,(ID,))
+				res=cur.fetchall()
+				if res:
+					return (False,("Course Already Exists"))
 				query="INSERT INTO course(courseid,coursetitle,department,coursedetails,avl) values(%s,%s,%s,%s,%s)"
 				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary,))
-				db_conn.commmit()
+				db_conn.commit()
 				for facultyid in Faculties:
 					k=self.AssignFacultyToCourse(facultyid,ID,db_conn)
 					if not(k):
 						break
-				return True
-			except:
-				print("\nError in adding the course\n")
-				return False
+				return (True,"All Done")
+			except Exception as E:
+				print(E)
+				#print("\nError in adding the course\n")
+				return (False,"Error connecting to database")
 		else:
-			return False
+			return (False,"Not all details given")
 
 	def EditCourse(self,db_conn,Id="",Title="",Facultiestobeadded=[],Details="",AVS=""):#dept can't change
 		#faculties can only be added
 		if Id:
 			cur=db_conn.cursor()
+			query="SELECT * FROM course WHERE courseid=%s"
+			cur.execute(query,(Id,))
+			res=cur.fetchall()
+			if not res:
+					return (False,("Course Does Not Exist"))
 			if Title:
 				query="UPDATE course SET coursetitle=%s WHERE courseid=%s"
 				cur.execute(query,(Title,Id,))
@@ -96,9 +106,9 @@ class Admin:
 			if Facultiestobeadded:
 				for i in Facultiestobeadded:
 					self.AssignFacultyToCourse(i,Id,db_conn)
-			return True
+			return (True,"Done")
 		else:
-			return False
+			return (False,"Course Does Not Exist")
 
 	def ViewAnnouncements(self,db_conn):
 		cur = db_conn.cursor()
