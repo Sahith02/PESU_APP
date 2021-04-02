@@ -4,6 +4,7 @@ from Admin import Admin
 from Announcement import Announcement
 from Student import Student
 from Faculty import Faculty
+from FeedBack import FeedBack
 import mysql.connector
 
 app = Flask(__name__)
@@ -68,7 +69,26 @@ def student_courses():
 
 @app.route("/sendfeedback",methods=["POST","GET"])
 def sendfeedback():
-	pass
+	print("here")
+	try:
+		if session['type']!="student":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	S1=Student(db_conn, session['email'])
+	courses_enrolled = S1.ViewCourses(db_conn)
+	result=request.form
+	notifs={}
+	for course in courses_enrolled:
+		ID=course.CourseID
+		if result[str(ID)]:
+			notifs[ID]=result[str(ID)]
+	for i in notifs:
+		F1=FeedBack(i,S1.srn)
+		print(F1.WriteReview(notifs[i],db_conn))
+		del F1	
+	return redirect(url_for("student_courses"))
 
 @app.route("/student_feedback", methods = ["GET", "POST"])
 def student_feedback():

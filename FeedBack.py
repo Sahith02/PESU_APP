@@ -2,7 +2,7 @@ import mysql.connector
 #FeedBack table -> CourseID, StudentID, Review
 
 class FeedBack:
-	def __init__(self, course, student, dbconn):
+	def __init__(self, course, student):
 		self.CourseID = course
 		self.StudentID = student
 		self.Review = None
@@ -19,9 +19,18 @@ class FeedBack:
 		cur = dbconn.cursor()
 		self.Review = review
 		try:
-			q = "INSERT INTO FeedBack VALUES(%s, %s, %s)"
-			cur.execute(q, (self.CourseID, self.StudentID, review,))
-			dbconn.commit()
-			return True
+			q = "SELECT Review FROM feedback WHERE CourseID=%s AND StudentID=%s"
+			cur.execute(q,(self.CourseID, self.StudentID,))
+			res=cur.fetchone()
+			if res:
+				q="UPDATE feedback SET review=%s WHERE CourseID=%s AND StudentID=%s"
+				cur.execute(q, (review,self.CourseID, self.StudentID,))
+				dbconn.commit()
+				return True
+			else:
+				q = "INSERT INTO feedback VALUES(%s, %s, %s)"
+				cur.execute(q, (self.CourseID, self.StudentID, review,))
+				dbconn.commit()
+				return True
 		except:
 			return False
