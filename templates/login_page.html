@@ -76,7 +76,9 @@
 				<h1>PESU Login</h1>
 
 				<hr>
-
+				{% if error %}
+				<p style="color :red; align-content: center;"> {{error}} </p>
+				{% endif %}
 				<label for = "email"><b>Email</b></label>
 				<input type = "text" placeholder = "Enter Email" name = "email" id = "email" required>
 
