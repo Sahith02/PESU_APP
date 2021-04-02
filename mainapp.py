@@ -54,6 +54,11 @@ def validate():
 
 @app.route("/student_courses", methods = ["GET", "POST"])
 def student_courses():
+	try:
+		if session['type']!="student":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	S1 = Student(db_conn, session['email'])
 	courses_enrolled = S1.ViewCourses(db_conn)
@@ -65,6 +70,11 @@ def sendfeedback():
 
 @app.route("/student_feedback", methods = ["GET", "POST"])
 def student_feedback():
+	try:
+		if session['type']!="student":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	S1 = Student(db_conn, session['email'])
 	courses_enrolled = S1.ViewCourses(db_conn)
@@ -73,6 +83,11 @@ def student_feedback():
 
 @app.route("/student_notifications", methods = ["GET", "POST"])
 def student_notifications():
+	try:
+		if session['type']!="student":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	A1 = Student(db_conn, session['email'])
 	all_announcements = A1.ViewAnnouncements(db_conn)
@@ -81,12 +96,22 @@ def student_notifications():
 
 @app.route("/student_notification/<string:ID>", methods = ["GET", "POST"])
 def student_notification(ID = ""):
+	try:
+		if session['type']!="student":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root",database = "pesuapp")
 	announcement = Announcement(db_conn, ID)
 	return render_template("student_notification.html", announcement = announcement)
 
 @app.route("/faculty_courses",methods=["GET","POST"])
 def faculty_courses():
+	try:
+		if session['type']!="faculty":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn=mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root",database = "pesuapp")
 	F1=Faculty(db_conn,session['email'])
 	number_of_courses,course_list=F1.GetStats(db_conn)
@@ -95,6 +120,11 @@ def faculty_courses():
 
 @app.route("/faculty_notifications", methods = ["GET", "POST"])
 def faculty_notifications():
+	try:
+		if session['type']!="faculty":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	A1 = Faculty(db_conn, session['email'])
 	all_announcements = A1.ViewAnnouncements(db_conn)
@@ -103,6 +133,11 @@ def faculty_notifications():
 
 @app.route("/faculty_notification/<string:ID>", methods = ["GET", "POST"])
 def faculty_notification(ID = ""):
+	try:
+		if session['type']!="faculty":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root",database = "pesuapp")
 	announcement = Announcement(db_conn, ID)
 	return render_template("faculty_notification.html", announcement = announcement)
