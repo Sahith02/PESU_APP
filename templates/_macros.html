@@ -22,6 +22,24 @@
 
 {% endmacro %}
 
+{% macro admin_sidenav() %}
+
+<div id="mySidenav" class="sidenav">
+	<p class="sidenavheading">PES University</p>
+	<hr>
+	<a href="{{ url_for('add_course') }}">Add Courses</a>
+	<a href="{{ url_for('edit_course') }}">Edit Courses</a>
+	<a href="{{ url_for('admin_notifications') }}">Notifications</a>
+	<a href="{{ url_for('add_notification') }}">Add Notifications</a>
+	<a href="{{ url_for('edit_notification') }}">Edit Notifications</a>
+	<a href="{{ url_for('add_student') }}">Add Student</a>
+	<a href="{{ url_for('edit_student') }}">Edit Student</a>
+	<a href="{{ url_for('add_faculty') }}">Add Faculty</a>
+	<a href="{{ url_for('edit_faculty') }}">Edit Faculty</a>
+</div>
+
+{% endmacro %}
+
 
 {% macro topnav() %}
 

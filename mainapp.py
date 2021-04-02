@@ -32,7 +32,7 @@ def validate():
 			session['email']=email
 			session['type']="admin"
 			#session['obj']=Admin(db_conn, email)
-			#return redirect(url_for("student_courses"))
+			return redirect(url_for("admin_notifications"))
 			#adminobj = Admin(db_conn, email)
 
 		if(account_type == 'student'):
@@ -169,6 +169,112 @@ def faculty_notification(ID = ""):
 	# db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
 	announcement = Announcement(db_conn, ID)
 	return render_template("faculty_notification.html", announcement = announcement)
+
+@app.route("/add_course",methods=["GET","POST"])
+def add_course():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
+
+@app.route("/edit_course",methods=["GET","POST"])
+def edit_course():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
+
+@app.route("/admin_notifications", methods = ["GET", "POST"])
+def admin_notifications():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	# db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
+	A1 = Admin(db_conn, session['email'])
+	all_announcements = A1.ViewAnnouncements(db_conn)
+	#all_announcements = session['obj'].ViewAnnouncements(db_conn)
+	return render_template("admin_notifications.html", all_announcements = all_announcements)
+
+@app.route("/admin_notification/<string:ID>", methods = ["GET", "POST"])
+def admin_notification(ID = ""):
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	# db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", database = "pesuapp")
+	announcement = Announcement(db_conn, ID)
+	return render_template("admin_notification.html", announcement = announcement)
+
+@app.route("/add_notification",methods=["GET","POST"])
+def add_notification():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
+
+@app.route("/edit_notification",methods=["GET","POST"])
+def edit_notification():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
+
+@app.route("/add_student",methods=["GET","POST"])
+def add_student():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
+
+@app.route("/edit_student",methods=["GET","POST"])
+def edit_student():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
+
+@app.route("/add_faculty",methods=["GET","POST"])
+def add_faculty():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
+
+@app.route("/edit_faculty",methods=["GET","POST"])
+def edit_faculty():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	return "hello"
 
 @app.route("/log",methods=["GET","POST"])
 def logout():
