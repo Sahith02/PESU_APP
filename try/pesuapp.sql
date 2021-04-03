@@ -42,10 +42,10 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `email`, `password`, `name`) VALUES
-('1235', 'sahith02.cods@gmail.com', 'password4', 'sahith02 cods'),
-('1234', 'sahith02@gmail.com', 'password1', 'sahith02'),
-('12310', 'sahith02@yahoo.com', 'password3', 'sahith02 yahoo'),
-('1232', 'sahithk02@gmail.com', 'password2', 'sahithk02');
+('1234', 'admin1@gmail.com', 'admin1@gmail.com', 'Admin 1'),
+('1235', 'admin2@gmail.com', 'admin2@gmail.com', 'Admin 2'),
+('1236', 'admin3@gmail.com', 'admin3@gmail.com', 'Admin 3'),
+('1237', 'admin4@gmail.com', 'admin4@gmail.com', 'Admin 4');
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `announcement` (
   `id` varchar(10) NOT NULL,
   `title` varchar(50) NOT NULL,
   `location` varchar(50) DEFAULT NULL,
-  `description` varchar(300) DEFAULT NULL,
+  `description` varchar(10000) DEFAULT NULL,
   `picture_link` varchar(100) DEFAULT NULL,
   `hyperlink` varchar(100) DEFAULT NULL,
   `posting_time` datetime DEFAULT NULL
@@ -68,9 +68,10 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`id`, `title`, `location`, `description`, `picture_link`, `hyperlink`, `posting_time`) VALUES
-('1', 'Kindly note a student registering for Special ESA ', 'MRD', 'Kindly note a student registering for Special ESA / Backlog Course can take a maximum of 20 credits in May 2021 ESA. This limit includes both Special ESA + Backlog Course. For Example: If a student has registered for 8 credits in backlog he/she can take a maximum of 12 credits in Special ESA.', 'https://leverageedu.com/blog/wp-content/uploads/2019/08/Course-after-MBA.png', 'https://www3.nd.edu/~pkamat/pdf/researchpaper.pdf', '2021-03-31 21:41:07'),
-('2', 'ESA March-April 2021 Time Table for BBAHEM 6th sem', '', 'ESA March-April 2021 Time Table for BBAHEM 6th sem', 'https://cdn1.vectorstock.com/i/1000x1000/53/10/school-timetable-icon-vector-13465310.jpg', 'https://www3.nd.edu/~pkamat/pdf/researchpaper.pdf', '2021-03-31 21:41:07'),
-('3', 'From the VC\'s desk - Bulletin #19, March 12, 2021', '', 'From the VC\'s desk', 'http://tiny.cc/97gvtz', '', '2021-03-31 21:41:07');
+('240f3b968f', 'Hello there!', '', '<b>This </b><i>is </i><u>new </u><font size="5" color="#ff3300">content</font>.', 'https://cutt.ly/Hcl86ob', '', '2021-04-03 14:21:31'),
+('240f3b968e', 'Kindly note a student registering for Special ESA ', 'MRD', 'Kindly note a student registering for Special ESA / Backlog Course can take a maximum of 20 credits in May 2021 ESA. This limit includes both Special ESA + Backlog Course. For Example: If a student has registered for 8 credits in backlog he/she can take a maximum of 12 credits in Special ESA.', 'https://leverageedu.com/blog/wp-content/uploads/2019/08/Course-after-MBA.png', 'https://www3.nd.edu/~pkamat/pdf/researchpaper.pdf', '2021-03-31 21:41:07'),
+('344f3b968d', 'ESA March-April 2021 Time Table for BBAHEM 6th sem', '', 'ESA March-April 2021 Time Table for BBAHEM 6th sem', 'https://cdn1.vectorstock.com/i/1000x1000/53/10/school-timetable-icon-vector-13465310.jpg', 'https://www3.nd.edu/~pkamat/pdf/researchpaper.pdf', '2021-03-31 21:41:07'),
+('670f3b968f', 'From the VC\'s desk - Bulletin #19, March 12, 2021', '', 'From the VC\'s desk', 'http://tiny.cc/97gvtz', '', '2021-03-31 21:41:07');
 
 -- --------------------------------------------------------
 
@@ -139,10 +140,10 @@ CREATE TABLE `faculty` (
 --
 
 INSERT INTO `faculty` (`FacultyID`, `Name`, `Email`, `ContactNumber`, `Address`, `DateOfJoining`) VALUES
-('1234567891', 'ahith02', 'ahith02@gmail.com', '0123456789', 'addr1', '2021-03-31 21:58:18'),
-('1234567892', 'ahithk02', 'ahithk02@gmail.com', '0123456789', 'addr2', '2021-03-31 21:58:18'),
-('1234567893', 'ahith02 ya', 'ahith02@yahoo.com', '0123456789', 'addr3', '2021-03-31 21:58:19'),
-('1234567894', 'ahith02 co', 'ahith02.cods@gmail.com', '0123456789', 'addr4', '2021-03-31 21:58:19');
+('1234567891', 'Faculty 1', 'faculty1@gmail.com', '0123456789', 'addr1', '2021-03-31 21:58:18'),
+('1234567892', 'Faculty 2', 'faculty2@gmail.com', '0223456789', 'addr2', '2021-03-31 21:58:18'),
+('1234567893', 'Faculty 3', 'faculty3@gmail.com', '0323456789', 'addr3', '2021-03-31 21:58:19'),
+('1234567894', 'Faculty 4', 'faculty4@gmail.com', '0423456789', 'addr4', '2021-03-31 21:58:19');
 
 -- --------------------------------------------------------
 
@@ -211,10 +212,10 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`emailid`, `studname`, `srn`, `pgm`, `address`, `phonenumber`, `branch`) VALUES
-('abcd@gmail.com', 'abcd', '3456789121', 'BTECH', 'delhi-6', '1234567890', 'CSE'),
-('abcde@gmail.com', 'abcde', '3456789122', 'BTECH', 'bangalore-4', '1234567890', 'CSE'),
-('abcdef@gmail.com', 'abcdef', '3456789123', 'BTECH', 'kolkata-42', '1234567890', 'Mech'),
-('abcdefg@gmail.com', 'abcdefg', '3456789124', 'BTECH', 'hyderabad-7', '1234567890', 'CSE');
+('student1@gmail.com', 'Student 1', '3456789121', 'BTECH', 'delhi-6', '1234567890', 'CSE'),
+('student2@gmail.com', 'Student 2', '3456789122', 'BTECH', 'bangalore-4', '1234567890', 'CSE'),
+('student3@gmail.com', 'Student 3', '3456789123', 'BTECH', 'kolkata-42', '1234567890', 'Mech'),
+('student4@gmail.com', 'Student 4', '3456789124', 'BTECH', 'hyderabad-7', '1234567890', 'CSE');
 
 -- --------------------------------------------------------
 
@@ -233,18 +234,18 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`email`, `password`, `account_type`) VALUES
-('abcd@gmail.com', '$5$rounds=535000$WvBiO5VEAtVXe/zf$9eCrSEV1WU3cIJdYF8hu6xeCoTYsbafrCeso/60.N6C', 'student'),
-('abcde@gmail.com', '$5$rounds=535000$Cpavc78gsOImhyjy$ASx00peaIhHiwrpmz33qwy0AOQr7Os0ZT.5d6suGF9.', 'student'),
-('abcdef@gmail.com', '$5$rounds=535000$t0TR8gLWbKRsaOoM$f0ROZOha/4TuFgSmbgnYXh7XkYdXQI5/4o.8ei1tAO2', 'student'),
-('abcdefg@gmail.com', '$5$rounds=535000$anS6Yb8DXUnz58za$39ifX.zU6u1CyagOo2Wh813o2xYhafq06cYm7Xz7l32', 'student'),
-('ahith02.cods@gmail.com', '$5$rounds=535000$dcMD8X5luDL6595X$ZljgpNgc9t9aFpW0ujCXgMA0IB9R//hoDrhgybWb6Z4', 'faculty'),
-('ahith02@gmail.com', '$5$rounds=535000$ThsxoXxmsN.soL99$7sc5IR5lcMArrR.74TqZHcd/FEkC0UN48SfGz52Ln62', 'faculty'),
-('ahith02@yahoo.com', '$5$rounds=535000$EeFr7Ukxeum8Cq98$bm4mIvJWpYDrplCvElGqPdhU/Xh7KVFK.XE5JRPHplC', 'faculty'),
-('ahithk02@gmail.com', '$5$rounds=535000$B0eoXOpARWJQUP/7$DHx0gRAreIMNy.Wm1hX3fDHi2n77MaHDDdO6oHoIGID', 'faculty'),
-('sahith02.cods@gmail.com', '$5$rounds=535000$tsNuJNwmt68L3pYa$kghyV48OPSXnkYB3SgIiCJkzvDXOXRotqYVQPL3HzW8', 'admin'),
-('sahith02@gmail.com', '$5$rounds=535000$.SEYq/T5mWYBflVR$Lx.OMNSCA7j4F1ADk.LjLEwYAvfdFsSOolINpRcoHXD', 'admin'),
-('sahith02@yahoo.com', '$5$rounds=535000$W2oBb5SV0JEr/uft$GkkV.G2vuKmeQz7H.fgqd/L4pfoZzhuBOQ0YgoJ7GZ9', 'admin'),
-('sahithk02@gmail.com', '$5$rounds=535000$E6fm4aLIqeCkV9Om$rCU2k19s6nKv6UZjyxUZMwOq84TgHIZuQZC3GycCfe4', 'admin');
+('student1@gmail.com', '$5$rounds=535000$qYvl3mRbTZJTz.qy$qNGQ69oAvWgUy6nDMWcG1LxGoBYD0T4k8R.LqOHRCn4', 'student'),
+('student2@gmail.com', '$5$rounds=535000$6xAAQLBvmSFb06gG$RQgOuXyGqbZUMdvJxH28pOibQfs2eufODD58uw2Z3t8', 'student'),
+('student3@gmail.com', '$5$rounds=535000$yYOdSoG0CFKoPHL7$4zsYrK6Ij76huYOkbjKSLkkmC8unGxJ4h2eUkNYEnY.', 'student'),
+('student4@gmail.com', '$5$rounds=535000$MTJy1Aar122JPqMf$4TmYkP4uVoWY0PueNKT5.pzxVc/2CWDrFY673agdLn1', 'student'),
+('faculty1@gmail.com', '$5$rounds=535000$kA3xFKCgzcnhe3kg$yL3bF7d9xe09ur.vJwey4KOON49edyOov9BqGrilTe9', 'faculty'),
+('faculty2@gmail.com', '$5$rounds=535000$2/.xEi44GQJghPDe$6ZccQjeSFdXwransfgWRBPKBflYN72D3oTEND6bnVB3', 'faculty'),
+('faculty3@gmail.com', '$5$rounds=535000$5pfuhdTCTlB2Tz8Y$5I1F/YxVTVzwQjD/W9oB2Z3uYLASkoV.utdoACyuiPC', 'faculty'),
+('faculty4@gmail.com', '$5$rounds=535000$/L1E3ut1G.JGXD0D$ON7.UeYDRVaEzqkva.vNIYsLOES2bgUDuSjNUmk3hR2', 'faculty'),
+('admin1@gmail.com', '$5$rounds=535000$ZyIzcOFwR87eboyN$ShY8ZeY4/4oOOoYhsNwKQZO2OitZTcrGsJCmnIywQI3', 'admin'),
+('admin2@gmail.com', '$5$rounds=535000$ZzDkGVvsgzLo009M$B6d1S5sajINvJbfKSc.345lzo.OW1bTAe0.Cbqadb0C', 'admin'),
+('admin3@gmail.com', '$5$rounds=535000$Z9BPPHLniU5h.zAN$Yz/A4IrnIkIsYcDBhotoEm5fXwLuqu0BMQiYKsW1G44', 'admin'),
+('admin4@gmail.com', '$5$rounds=535000$v9FI3OxHHlER9ceo$KUp0Yk0BT8DrMhgxWYOsyUjgIJLJ93s6/mpNDsPbptD', 'admin');
 
 --
 -- Indexes for dumped tables
