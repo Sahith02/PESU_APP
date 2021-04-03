@@ -174,7 +174,7 @@ class Admin:
 			all_announcements.append(Announcement(db_conn, result[0]))
 		return all_announcements
 
-	def AddAnnouncement(self,db_conn, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
+	def AddAnnouncement(self, db_conn, ID = None, Title = "", Location = "", Description = "", PictureLink = "", HyperLink = "", PostingTime = None):
 		ID = generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key() if (ID == None) else ID
 		PostingTime = datetime.datetime.now() if (PostingTime == None) else PostingTime
 		cur = db_conn.cursor()
@@ -211,7 +211,7 @@ class Admin:
 		else:
 			return
 	
-	def RemoveAnnouncement(self,db_conn,ID = None):
+	def RemoveAnnouncement(self, db_conn, ID = None):
 		if(ID == None):
 			return
 		else:
