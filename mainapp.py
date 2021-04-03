@@ -293,7 +293,7 @@ def add_notification():
 	if(request.method == "POST"):
 		db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "root", database = "pesuapp")
 		form_data = request.form
-		# print(form_data)
+		print(form_data)
 		A1 = Admin(db_conn, session['email'])
 		A1.AddAnnouncement(db_conn, Title=form_data['Title'], Location=form_data['Location'], Description=form_data['Description'], PictureLink=form_data['PictureLink'], HyperLink=form_data['HyperLink'])
 		return redirect(url_for("admin_notifications"))
@@ -330,6 +330,20 @@ def edit_notification(NOTIF_ID = ""):
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	announcement = Announcement(db_conn, NOTIF_ID)
 	return render_template("edit_notification.html", announcement = announcement)
+
+@app.route("/delete_notification/<string:NOTIF_ID>", methods = ["GET"])
+def delete_notification(NOTIF_ID = ""):
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	A1 = Admin(db_conn, session['email'])
+	print("deleting...")
+	A1.RemoveAnnouncement(db_conn, ID = NOTIF_ID)
+	return redirect(url_for("edit_notifications"))
 
 @app.route("/admin_students",methods=["GET","POST"])
 def admin_students():
