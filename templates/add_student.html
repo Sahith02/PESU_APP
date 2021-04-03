@@ -1,0 +1,139 @@
+{% from "_macros.html" import admin_sidenav, topnav %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="../static/css/_macros.css" rel="stylesheet">
+		<style>
+			.coursestable {
+				border-collapse: collapse;
+				margin: auto;
+				margin-top: 50px;
+				font-size: 0.95em;
+				min-width: 650px;
+				border-radius: 5px 5px 0 0;
+				overflow: hidden;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+			}
+			.coursestable thead tr {
+				background-color: white;
+				color: #0a0a0a;
+				text-align: center;
+			}
+			.coursestable th,.coursestable td {
+				padding: 16px 15px;
+			}
+			
+			.coursestable tbody tr {
+				border-bottom: 1px solid #dddddd;
+				text-align: center;
+			}
+
+			.coursestable thead tr:nth-of-type(even) {
+				background-color: #f3f3f3;
+			}
+
+			.coursestable tbody tr:last-of-type {
+				border-bottom: 2px solid rgb(57, 54, 241);
+			}
+
+			.coursestable tbody tr:hover {
+				background-color: #f5f5f5;
+			}
+			.registerbtn {
+				background-color: rgb(3, 0, 161);
+				color: white;
+				padding: 16px 20px;
+				margin: auto;
+				display:block;
+				border: none;
+				cursor: pointer;
+				width: 20%;
+				opacity: 0.9;
+				font-size: 16px;
+			}
+
+			.registerbtn:hover {
+				opacity: 1;
+			}
+
+			textarea{
+				background:white;
+				color:black;
+				border-color:black;
+				resize: none;
+				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			}
+		
+			::placeholder{
+				color:black;
+				opacity: 0.7;
+			}
+			
+		</style>
+	</head>
+	<body>
+
+		{{ admin_sidenav() }}
+
+		<div id="main">
+			{{ topnav() }}
+
+			<div class="contentContainer">
+				<!-- {% if error %}
+				<p style="color :red; align-content: center;"> {{error}} </p>
+				{% endif %}
+				{% if success %}
+				<p style="color :green; align-content: center;"> {{success}} </p>
+				{% endif %} -->
+				<h2 style="margin-top: 40px;">Add a Student</h2>
+				<form action="{{url_for('studentadd')}}" method="POST">
+					<table class="coursestable">
+						<thead>
+							<tr>
+								<th>Student SRN</th>
+								<td><input type="text" name="StudentSRN" placeholder="10 characters" required></td>
+							</tr>
+							<tr>
+								<th>Student Name</th>
+								<td><input type="text" name="StudentName" required></td>
+							</tr>
+							<tr>
+								<th>Program</th>
+								<td><input type="text" name="Program" required></td>
+							</tr>
+							<tr>
+								<th>Address</th>
+								<td><textarea name="Address" rows="2" required></textarea></td>
+							</tr>
+							<tr>
+								<th>Student Phone Number</th>
+								<td><input type="text" name="StudentPhone" placeholder="10 characters" required></td>
+							</tr>
+							<tr>
+								<th>Branch</th>
+								<td><input type="text" name="Branch" required></td>
+							</tr>
+							<tr>
+								<th>Email ID</th>
+								<td><input type="email" name="email" required></td>
+							</tr>
+							<tr>
+								<th>Password</th>
+								<td><input type="password" name="password" required></td>
+							</tr>
+							<tr>
+								<th>Reconfirm Password</th>
+								<td><input type="password" name="repassword" required></td>
+							</tr>
+						</thead>
+					</table>
+					<br>
+					<button type="submit" class="registerbtn" >Add Student</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html> 
