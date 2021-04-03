@@ -60,6 +60,7 @@
 
 	<button class="dropdown-btn">Courses<i class="fa fa-caret-down"></i></button>
 	<div class="dropdown-container">
+		<a href="{{ url_for('admin_courses') }}">View Courses</a>
 		<a href="{{ url_for('add_course') }}">Add Course</a>
 		<a href="{{ url_for('edit_course') }}">Edit Course</a>
 	</div>
@@ -73,6 +74,7 @@
 
 	<button class="dropdown-btn">Students<i class="fa fa-caret-down"></i></button>
 	<div class="dropdown-container">
+		<a href="{{ url_for('admin_students') }}">View Students</a>
 		<a href="{{ url_for('add_student') }}">Add Student</a>
 		<a href="{{ url_for('edit_student') }}">Edit Student</a>
 	</div>
