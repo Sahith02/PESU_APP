@@ -104,37 +104,38 @@
 
 			<div class="contentContainer">
 				<h2 style="margin-top: 30px;">Add Notification</h2>
+				<meta id="my-data" data-name="{{announcement.Description}}">
 				<div class="innerContainer">
-					
 					<form
-						method = "post" 
-						action = "{{url_for('add_notification')}}" 
-						enctype = "multipart/form-data" 
+						method = "post"
+						action = "{{url_for('edit_notification', NOTIF_ID = announcement.ID)}}"
+						enctype = "multipart/form-data"
 						style = ""
 						onSubmit="document.getElementById('submit_button').disabled=true;"
+						novalidate
 					>
 						<table class="coursestable">
 							<thead>
 								<tr>
 									<th>Title *</th>
-									<td><input type="text" class="input_text" name="Title" placeholder="Title" required></td>
+									<td><input type="text" value="{{announcement.Title}}" class="input_text" name="Title" placeholder="Title" required></td>
 								</tr>
 								<tr>
 									<th>Location</th>
-									<td><input type="text" class="input_text" name="Location" placeholder="Location"></td>
+									<td><input type="text" value="{{announcement.Location}}" class="input_text" name="Location" placeholder="Location"></td>
 								</tr>
 								<tr>
 									<th>Picture Link *</th>
-									<td><input type="text" class="input_text" name="PictureLink" placeholder="Link to Cover Image" required></td>
+									<td><input type="text" value="{{announcement.PictureLink}}" class="input_text" name="PictureLink" placeholder="Link to Cover Image" required></td>
 								</tr>
 								<tr>
 									<th>HyperLink</th>
-									<td><input type="text" class="input_text" name="HyperLink" placeholder="Optional HyperLink"></td>
+									<td><input type="text" value="{{announcement.HyperLink}}" class="input_text" name="HyperLink" placeholder="Optional HyperLink"></td>
 								</tr>
 								<tr>
 									<th>Description *</th>
 									<td>
-										<textarea class="textarea_notice" name="Description" id="area_custom"></textarea>
+										<textarea class="textarea_notice" name="Description" id="area_custom" required></textarea>
 									</td>
 								</tr>
 							</thead>
@@ -149,12 +150,16 @@
 			</div>
 		</div>
 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 		<script>
 			// Custom configuration from nicEdit
 			bkLib.onDomLoaded(function() {
 				new nicEditor({buttonList : ['bold', 'italic', 'underline', 'strikeThrough', 'ol', 'ul', 'fontFamily', 'fontSize', 'subscript', 'superscript', 'forecolor']})
 					.panelInstance('area_custom');
+				var notice_content = $('#my-data').data();
+				console.log(notice_content);
+				nicEditors.findEditor( "area_custom" ).setContent(notice_content.name);
 			});
 		</script>
 	</body>
