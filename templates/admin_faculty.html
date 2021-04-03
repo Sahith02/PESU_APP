@@ -18,8 +18,8 @@
 
 			}
 			.coursestable thead tr {
-				background-color: white;
-				color: #0a0a0a;
+				background-color: rgb(57, 54, 241);
+				color: #ffffff;
 				text-align: center;
 			}
 			.coursestable th,.coursestable td {
@@ -31,7 +31,7 @@
 				text-align: center;
 			}
 
-			.coursestable thead tr:nth-of-type(even) {
+			.coursestable tbody tr:nth-of-type(even) {
 				background-color: #f3f3f3;
 			}
 
@@ -43,7 +43,7 @@
 				background-color: #f5f5f5;
 			}
 			.registerbtn {
-				background-color: rgb(3, 0, 161);
+				background-color: rgb(67, 67, 181);
 				color: white;
 				padding: 16px 20px;
 				margin: auto;
@@ -62,7 +62,7 @@
 			textarea{
 				background:white;
 				color:black;
-				border-color:black;
+				border-color:royalblue;
 				resize: none;
 				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 			}
@@ -82,45 +82,29 @@
 			{{ topnav() }}
 
 			<div class="contentContainer">
-				<!-- {% if error %}
+				{% if error %}
 				<p style="color :red; align-content: center;"> {{error}} </p>
 				{% endif %}
 				{% if success %}
 				<p style="color :green; align-content: center;"> {{success}} </p>
-				{% endif %} -->
-				<h2 style="margin-top: 40px;">Edit Student</h2>
-				<form action="{{url_for('studentedit')}}" method="POST">
+				{% endif %}
+				<h2 style="margin-top: 40px;">All Faculty</h2>
 					<table class="coursestable">
 						<thead>
 							<tr>
-								<th>Student ID</th>
-								<td><input type="text" placeholder="10 characters" name="StudentID" required></td>
-							</tr>
-							<tr>
-								<th>Student Name</th>
-								<td><input type="text" name="StudentName"></td>
-							</tr>
-							<tr>
-								<th>Address</th>
-								<td><textarea rows="2" name="Address"></textarea></td>
-							</tr>
-							<tr>
-								<th>Phone Number</th>
-								<td><input type="text" name="Phone"></td>
-							</tr>
-							<tr>
-								<th>Branch</th>
-								<td><input type="text" name="Branch"></td>
-							</tr>
-							<tr>
-								<th>Courses Learning</th>
-								<td><input type="textarea" placeholder="Comma Separated Correct Course IDs" name="CID"></td>
+								<th>Faculty ID</th>
+								<th>Faculty Name</th>
 							</tr>
 						</thead>
+						<tbody>
+							{% for facu in faculty %}
+							<tr>
+								<td>{{facu[0]}}</td>
+								<td>{{facu[1]}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
 					</table>
-					<br>
-					<button type="submit" class="registerbtn" >Edit Student Details</button>
-				</form>
 			</div>
 		</div>
 	</body>

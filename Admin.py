@@ -6,6 +6,7 @@ import mysql.connector
 import datetime
 from Announcement import Announcement
 from Course import Course
+from datetime import datetime
 
 class Admin:
 	def __init__(self,db_conn,email = ""):
@@ -76,16 +77,55 @@ class Admin:
 					self.AssignStudentToCourse(db_conn,srn,courseid)
 			return (True,"Done")
 		else:
-			return (False,"Course Does Not Exist")
+			return (False,"Student Does Not Exist")
 			
 
-	def AddFaculty(self):
-		pass
+	def AddFaculty(self,db_conn,email,id,name,address,phone,date):
+		try:
+			cur=db_conn.cursor()
+			query="SELECT `FacultyID` from faculty WHERE FacultyID=%s"
+			cur.execute(query,(id,))
+			res=cur.fetchall()
+			if res:
+				return (False,"Faculty ID already exists")
+			date=datetime.strptime(date,"%Y-%m-%d")
+			query="INSERT into faculty(FacultyID,`Name`,Email,ContactNumber,`Address`,DateOfJoining) VALUES (%s,%s,%s,%s,%s,%s)"
+			cur.execute(query,(id,name,email,phone,address,date))
+			db_conn.commit()
+			return (True,"Success")
+		except Exception as E:
+			print(E)
+			return (False,"Error Connecting to Database")
 
-	def EditFaculty(self):
-		pass
+	def EditFaculty(self,db_conn,id,name,address,phonenumber,courseid):
+		if id:
+			cur=db_conn.cursor()
+			query="SELECT `Name` FROM faculty where FacultyID=%s"
+			cur.execute(query,(id,))
+			res=cur.fetchall()
+			if not(res):
+				return (False,"Faculty Does Not Exist")
+			if address:
+				query="UPDATE faculty SET `address`=%s WHERE FacultyID=%s"
+				cur.execute(query,(address,id,))
+				db_conn.commit()
+			if name:
+				query="UPDATE faculty SET `Name`=%s WHERE FacultyID=%s"
+				cur.execute(query,(name,id,))
+				db_conn.commit()
+			if phonenumber:
+				query="UPDATE faculty SET ContactNumber=%s WHERE FacultyID=%s"
+				cur.execute(query,(phonenumber,id,))
+				db_conn.commit()
+			cur.close()
+			if courseid:
+				for i in courseid:
+					self.AssignFacultyToCourse(db_conn,id,i)
+			return (True,"Done")
+		else:
+			return (False,"Faculty Does Not Exist")
 
-	def AssignFacultyToCourse(self,facultyID,courseID,db_conn):
+	def AssignFacultyToCourse(self,db_conn,facultyID,courseID):
 		try:
 			cursor=db_conn.cursor()
 			query="INSERT INTO coufac(courseid,facultyid) values (%s,%s)"
