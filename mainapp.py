@@ -290,7 +290,7 @@ def add_notification():
 	except:
 		return redirect(url_for("logout"))
 	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
-	return "hello"
+	return render_template("add_notification.html")
 
 @app.route("/edit_notification",methods=["GET","POST"])
 def edit_notification():
