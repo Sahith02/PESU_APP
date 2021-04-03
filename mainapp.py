@@ -311,6 +311,26 @@ def edit_notifications():
 	all_announcements = A1.ViewAnnouncements(db_conn)
 	return render_template("edit_notifications.html", all_announcements = all_announcements)
 
+@app.route("/edit_notification/<string:NOTIF_ID>", methods = ["GET", "POST"])
+def edit_notification(NOTIF_ID = ""):
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	
+	if(request.method == "POST"):
+		db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root", password = "root", database = "pesuapp")
+		form_data = request.form
+		# print(form_data)
+		A1 = Admin(db_conn, session['email'])
+		# print(NOTIF_ID)
+		A1.UpdateAnnouncement(db_conn, ID = NOTIF_ID, Title=form_data['Title'], Location=form_data['Location'], Description=form_data['Description'], PictureLink=form_data['PictureLink'], HyperLink=form_data['HyperLink'])
+		return redirect(url_for("edit_notifications"))
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	announcement = Announcement(db_conn, NOTIF_ID)
+	return render_template("edit_notification.html", announcement = announcement)
+
 @app.route("/admin_students",methods=["GET","POST"])
 def admin_students():
 	try:
