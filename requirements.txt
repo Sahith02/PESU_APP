@@ -1,3 +1,4 @@
 key-generator
 flask
 mysql_connector
+passlib
