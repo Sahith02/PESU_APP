@@ -530,6 +530,26 @@ def edit_faculty():
 	#db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	return render_template("edit_faculty.html")
 
+@app.route("/view_feedback",methods=["GET","POST"])
+@app.route("/view_feedback/<string:CourseID>",methods=["GET","POST"])
+def view_feedback(CourseID = ""):
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	A1 = Admin(db_conn, session['email'])
+
+	if(CourseID):
+		CourseFeedback = A1.ViewFeedback(db_conn, CourseID)
+		return render_template("view_course_feedback.html", CourseFeedback = CourseFeedback, CourseID = CourseID)
+
+	all_courses = A1.ViewCourse(db_conn)
+	return render_template("view_feedback.html", all_courses = all_courses)
+
+
 @app.route("/log",methods=["GET","POST"])
 def logout():
 	session.pop('email',None)

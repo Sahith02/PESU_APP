@@ -6,6 +6,7 @@ import mysql.connector
 import datetime
 from Announcement import Announcement
 from Course import Course
+from FeedBack import FeedBack
 from datetime import datetime
 
 class Admin:
@@ -259,6 +260,19 @@ class Admin:
 			query = "DELETE FROM announcement WHERE id = %s"
 			cur.execute(query, (ID, ))
 			db_conn.commit()
+	
+	def ViewFeedback(self, db_conn, CourseID = ""):
+		if(not CourseID):
+			return []
+		else:
+			cur = db_conn.cursor()
+			query = "SELECT CourseID, StudentID, Review FROM feedback WHERE CourseID = %s"
+			cur.execute(query, (CourseID, ))
+			results = cur.fetchall()
+			all_feedback = []
+			for feedback in results:
+				all_feedback.append({"CourseID": feedback[0], "StudentID": feedback[1], "Review": feedback[2]})
+			return all_feedback
 
 	def __repr__(self):
 		return "\nADMIN:\nID = {0}\nEmail = {1}\nName = {2}".format(self.ID, self.email, self.name)
