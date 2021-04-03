@@ -206,7 +206,7 @@ def courseadd():
 	cur.execute(query)
 	res=cur.fetchall()
 	if k[0]:
-		return render_template("admin_courses.html",courses=res,success="Successfully Added")
+		return render_template("admin_courses.html",courses=res,success="Course Successfully Added")
 	else:
 		return render_template("admin_courses.html",courses=res,error=k[1])
 
@@ -242,7 +242,7 @@ def courseedit():
 	cur.execute(query)
 	res=cur.fetchall()
 	if k[0]:
-		return render_template("admin_courses.html",courses=res,success="Successfully Added")
+		return render_template("admin_courses.html",courses=res,success="Course Successfully Edited")
 	else:
 		return render_template("admin_courses.html",courses=res,error=k[1])
 
@@ -337,7 +337,7 @@ def studentadd():
 	email,passw,repassw=result["email"],result["password"],result["repassword"]
 	error,success="",""
 	if passw!=repassw:
-		error="Passwords Don't Match!"
+		error="Passwords Didn't Match!"
 	else:
 		db_conn=mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 		cur=db_conn.cursor()
@@ -358,7 +358,7 @@ def studentadd():
 	cur.execute(query)
 	res=cur.fetchall()
 	if success:
-		return render_template("admin_students.html",students=res,success="Successfully Added")
+		return render_template("admin_students.html",students=res,success="Student Successfully Added")
 	return render_template("admin_students.html",students=res,error=error)
 
 @app.route("/add_student",methods=["GET","POST"])
@@ -390,7 +390,7 @@ def studentedit():
 	cur.execute(query)
 	res=cur.fetchall()
 	if k[0]:
-		return render_template("admin_students.html",students=res,success="Successfully Edited")
+		return render_template("admin_students.html",students=res,success="Student Successfully Edited")
 	return render_template("admin_students.html",students=res,error=k[1])
 
 
@@ -404,6 +404,56 @@ def edit_student():
 	#db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
 	return render_template("edit_student.html")
 
+@app.route("/admin_faculty",methods=["GET","POST"])
+def admin_faculty():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	db_conn=mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	cur=db_conn.cursor()
+	query="SELECT FacultyID,`Name` FROM faculty"
+	cur.execute(query)
+	res=cur.fetchall()
+	return render_template("admin_faculty.html", faculty = res)
+
+@app.route("/facultyadd",methods=["GET","POST"])
+def facultyadd():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	res=request.form
+	id,name,address,phone,date=res['FacultyID'],res["FacultyName"],res['Address'],res['FacultyPhone'],res['date']
+	email,pwd,rpwd=res['email'],res['password'],res['repassword']
+	error,success="",""
+	if pwd!=rpwd:
+		error="Passwords Didn't Match"
+	else:
+		db_conn=mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+		cur=db_conn.cursor()
+		A1=Admin(db_conn,session['email'])
+		k=A1.AddFaculty(db_conn,email,id,name,address,phone,date)
+		if k[0]:
+			success=k[1]
+			acct_type="faculty"
+			passw=sha256_crypt.hash(pwd)
+			query="INSERT INTO users(`password`,account_type,email) VALUES(%s,%s,%s)"
+			cur.execute(query,(passw,acct_type,email,))
+			db_conn.commit()
+		else:
+			error=k[1]
+	db_conn=mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	cur=db_conn.cursor()
+	query="SELECT FacultyID,`Name` FROM faculty"
+	cur.execute(query)
+	res=cur.fetchall()
+	if success:
+		return render_template("admin_faculty.html",faculty=res,success="Faculty Successfully Added")
+	return render_template("admin_faculty.html",faculty=res,error=error)
+
 @app.route("/add_faculty",methods=["GET","POST"])
 def add_faculty():
 	try:
@@ -412,7 +462,29 @@ def add_faculty():
 	except:
 		return redirect(url_for("logout"))
 	#db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
-	return "hello"
+	return render_template("add_faculty.html")
+
+@app.route("/facultyedit",methods=["GET","POST"])
+def facultyedit():
+	try:
+		if session['type']!="admin":
+			return redirect(url_for("logout"))
+	except:
+		return redirect(url_for("logout"))
+	result=request.form
+	id,name,address,phonenumber,courseid=result['FacultyID'],result['FacultyName'],result['Address'],result['Phone'],result['CID']
+	courseid=courseid.split(",")
+	courseid=[x.strip() for x in courseid]
+	db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
+	A1=Admin(db_conn,session['email'])
+	k=A1.EditFaculty(db_conn,id,name,address,phonenumber,courseid)
+	cur=db_conn.cursor()
+	query="SELECT FacultyID,`Name` FROM faculty"
+	cur.execute(query)
+	res=cur.fetchall()
+	if k[0]:
+		return render_template("admin_faculty.html",faculty=res,success="Faculty Successfully Edited")
+	return render_template("admin_faculty.html",faculty=res,error=k[1])
 
 @app.route("/edit_faculty",methods=["GET","POST"])
 def edit_faculty():
@@ -422,7 +494,7 @@ def edit_faculty():
 	except:
 		return redirect(url_for("logout"))
 	#db_conn = mysql.connector.connect(host = "localhost", port = 3306, user = "root",password="root", database = "pesuapp")
-	return "hello"
+	return render_template("edit_faculty.html")
 
 @app.route("/log",methods=["GET","POST"])
 def logout():

@@ -88,17 +88,17 @@
 				{% if success %}
 				<p style="color :green; align-content: center;"> {{success}} </p>
 				{% endif %} -->
-				<h2 style="margin-top: 40px;">Edit Student</h2>
-				<form action="{{url_for('studentedit')}}" method="POST">
+				<h2 style="margin-top: 40px;">Edit Faculty</h2>
+				<form action="{{url_for('facultyedit')}}" method="POST">
 					<table class="coursestable">
 						<thead>
 							<tr>
-								<th>Student ID</th>
-								<td><input type="text" placeholder="10 characters" name="StudentID" required></td>
+								<th>Faculty ID</th>
+								<td><input type="text" placeholder="10 characters" name="FacultyID" required></td>
 							</tr>
 							<tr>
-								<th>Student Name</th>
-								<td><input type="text" name="StudentName"></td>
+								<th>Faculty Name</th>
+								<td><input type="text" name="FacultyName"></td>
 							</tr>
 							<tr>
 								<th>Address</th>
@@ -109,17 +109,13 @@
 								<td><input type="text" name="Phone"></td>
 							</tr>
 							<tr>
-								<th>Branch</th>
-								<td><input type="text" name="Branch"></td>
-							</tr>
-							<tr>
-								<th>Courses Learning</th>
+								<th>Courses Teaching</th>
 								<td><input type="textarea" placeholder="Comma Separated Correct Course IDs" name="CID"></td>
 							</tr>
 						</thead>
 					</table>
 					<br>
-					<button type="submit" class="registerbtn" >Edit Student Details</button>
+					<button type="submit" class="registerbtn" >Edit Faculty Details</button>
 				</form>
 			</div>
 		</div>
