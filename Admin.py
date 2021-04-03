@@ -9,7 +9,6 @@ from Course import Course
 
 class Admin:
 	def __init__(self,db_conn,email = ""):
-		
 		cur = db_conn.cursor()
 		query = "SELECT id, name FROM `admin` WHERE email = %s"
 		cur.execute(query, (email,))
@@ -20,11 +19,65 @@ class Admin:
 		self.name = result[1]
 		cur.close()
 	
-	def AddStudent(self):
-		pass
+	def AddStudent(self,db_conn,email,srn,name,address,phone,pgm,branch):
+		try:
+			cur=db_conn.cursor()
+			query="SELECT srn from student WHERE srn=%s"
+			cur.execute(query,(srn,))
+			res=cur.fetchall()
+			if res:
+				return (False,"Student SRN already exists")
+			query="INSERT into student(srn,studname,pgm,emailid,`address`,phonenumber,branch) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+			cur.execute(query,(srn,name,pgm,email,address,phone,branch))
+			db_conn.commit()
+			return (True,"Success")
+		except:
+			return (False,"Error Connecting to Database")
+	
+	def AssignStudentToCourse(self,db_conn,studentID,courseID):
+		try:
+			cursor=db_conn.cursor()
+			query="INSERT INTO stucou(courseid,studentid) values (%s,%s)"
+			cursor.execute(query,(courseID,studentID,))
+			db_conn.commit()
+			cursor.close()
+			return True
+		except:
+			print(f"\nError while assigning Student-{studentID} to Course-{courseID}\n")
+			return False
 
-	def EditStudent(self):
-		pass
+	def EditStudent(self,db_conn,srn="",name="",address="",phone="",branch="",courses=[]):
+		if srn:
+			cur=db_conn.cursor()
+			query="SELECT studname FROM student where srn=%s"
+			cur.execute(query,(srn,))
+			res=cur.fetchall()
+			if not(res):
+				return (False,"Student Does Not Exist")
+			if address:
+				query="UPDATE student SET address=%s WHERE srn=%s"
+				cur.execute(query,(address,srn,))
+				db_conn.commit()
+			if name:
+				query="UPDATE student SET studname=%s WHERE srn=%s"
+				cur.execute(query,(name,srn,))
+				db_conn.commit()
+			if phone:
+				query="UPDATE student SET phonenumber=%s WHERE srn=%s"
+				cur.execute(query,(phone,srn,))
+				db_conn.commit()
+			if branch:
+				query="UPDATE student SET branch=%s WHERE srn=%s"
+				cur.execute(query,(branch,srn,))
+				db_conn.commit()
+			cur.close()
+			if courses:
+				for courseid in courses:
+					self.AssignStudentToCourse(db_conn,srn,courseid)
+			return (True,"Done")
+		else:
+			return (False,"Course Does Not Exist")
+			
 
 	def AddFaculty(self):
 		pass
@@ -55,31 +108,41 @@ class Admin:
 			courses=[Course(db_conn,x[0]) for x in res]
 		return courses
 
-	def AddCourse(self,db_conn,CourseTitle="",Department="",Faculties=[],Details="",AVSummary=""):
+	def AddCourse(self,db_conn,ID,CourseTitle="",Department="",Faculties=[],Details="",AVSummary=""):
 		#db_conn is the database connection, Faculties is list of faculty ids
 		
-		if CourseTitle and Department and Faculties and Details and AVSummary:
+		if ID and CourseTitle and Department and Faculties and Details and AVSummary:
 			try:
-				ID=generate(num_of_atom = 1, min_atom_len = 10, max_atom_len = 10).get_key()
 				cur = db_conn.cursor()
+				query="SELECT * FROM course WHERE courseid=%s"
+				cur.execute(query,(ID,))
+				res=cur.fetchall()
+				if res:
+					return (False,("Course Already Exists"))
 				query="INSERT INTO course(courseid,coursetitle,department,coursedetails,avl) values(%s,%s,%s,%s,%s)"
 				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary,))
-				db_conn.commmit()
+				db_conn.commit()
 				for facultyid in Faculties:
 					k=self.AssignFacultyToCourse(facultyid,ID,db_conn)
 					if not(k):
 						break
-				return True
-			except:
-				print("\nError in adding the course\n")
-				return False
+				return (True,"All Done")
+			except Exception as E:
+				print(E)
+				#print("\nError in adding the course\n")
+				return (False,"Error connecting to database")
 		else:
-			return False
+			return (False,"Not all details given")
 
 	def EditCourse(self,db_conn,Id="",Title="",Facultiestobeadded=[],Details="",AVS=""):#dept can't change
 		#faculties can only be added
 		if Id:
 			cur=db_conn.cursor()
+			query="SELECT * FROM course WHERE courseid=%s"
+			cur.execute(query,(Id,))
+			res=cur.fetchall()
+			if not res:
+					return (False,("Course Does Not Exist"))
 			if Title:
 				query="UPDATE course SET coursetitle=%s WHERE courseid=%s"
 				cur.execute(query,(Title,Id,))
@@ -96,9 +159,9 @@ class Admin:
 			if Facultiestobeadded:
 				for i in Facultiestobeadded:
 					self.AssignFacultyToCourse(i,Id,db_conn)
-			return True
+			return (True,"Done")
 		else:
-			return False
+			return (False,"Course Does Not Exist")
 
 	def ViewAnnouncements(self,db_conn):
 		cur = db_conn.cursor()
