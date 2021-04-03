@@ -170,7 +170,7 @@ def faculty_notification(ID = ""):
 	announcement = Announcement(db_conn, ID)
 	return render_template("faculty_notification.html", announcement = announcement)
 
-@app.route("/admin_courses",methods=["GET","POST"])
+@app.route("/admin_courses", methods=["GET","POST"])
 def admin_courses():
 	try:
 		if session['type']!="admin":
