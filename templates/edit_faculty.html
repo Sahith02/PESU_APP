@@ -6,10 +6,45 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../static/css/_macros.css" rel="stylesheet">
 		<style>
+			.submit_button {
+				background-color: rgb(3, 0, 161);
+				color: white;
+				padding: 16px 20px;
+				margin: auto;
+				display:block;
+				border: none;
+				cursor: pointer;
+				width: 15%;
+				opacity: 0.9;
+				font-size: 16px;
+				border-radius: 5px;
+			}
+
+			.submit_button:hover {
+				opacity: 1;
+			}
+
+			.input_text {
+				width: 80%;
+				height: 25px;
+				border-radius: 3px;
+				border-width: 0px;
+				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+				padding-left: 10px;
+			}
+
+			.text_area {
+				width: 80%;
+				height: 70px;
+				border-radius: 3px;
+				border-width: 0px;
+				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+				padding-left: 10px;
+			}
 			.coursestable {
 				border-collapse: collapse;
 				margin: auto;
-				margin-top: 50px;
+				margin-top: 30px;
 				font-size: 0.95em;
 				min-width: 650px;
 				border-radius: 5px 5px 0 0;
@@ -20,10 +55,10 @@
 			.coursestable thead tr {
 				background-color: white;
 				color: #0a0a0a;
-				text-align: center;
+				/* text-align: center; */
 			}
 			.coursestable th,.coursestable td {
-				padding: 16px 15px;
+				padding: 15px 15px;
 			}
 			
 			.coursestable tbody tr {
@@ -42,31 +77,7 @@
 			.coursestable tbody tr:hover {
 				background-color: #f5f5f5;
 			}
-			.registerbtn {
-				background-color: rgb(3, 0, 161);
-				color: white;
-				padding: 16px 20px;
-				margin: auto;
-				display:block;
-				border: none;
-				cursor: pointer;
-				width: 20%;
-				opacity: 0.9;
-				font-size: 16px;
-			}
 
-			.registerbtn:hover {
-				opacity: 1;
-			}
-
-			textarea{
-				background:white;
-				color:black;
-				border-color:black;
-				resize: none;
-				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-			}
-		
 			::placeholder{
 				color:black;
 				opacity: 0.7;
@@ -82,41 +93,37 @@
 			{{ topnav() }}
 
 			<div class="contentContainer">
-				<!-- {% if error %}
-				<p style="color :red; align-content: center;"> {{error}} </p>
-				{% endif %}
-				{% if success %}
-				<p style="color :green; align-content: center;"> {{success}} </p>
-				{% endif %} -->
 				<h2 style="margin-top: 40px;">Edit Faculty</h2>
-				<form action="{{url_for('facultyedit')}}" method="POST">
-					<table class="coursestable">
-						<thead>
-							<tr>
-								<th>Faculty ID</th>
-								<td><input type="text" placeholder="10 characters" name="FacultyID" required></td>
-							</tr>
-							<tr>
-								<th>Faculty Name</th>
-								<td><input type="text" name="FacultyName"></td>
-							</tr>
-							<tr>
-								<th>Address</th>
-								<td><textarea rows="2" name="Address"></textarea></td>
-							</tr>
-							<tr>
-								<th>Phone Number</th>
-								<td><input type="text" name="Phone"></td>
-							</tr>
-							<tr>
-								<th>Courses Teaching</th>
-								<td><input type="textarea" placeholder="Comma Separated Correct Course IDs" name="CID"></td>
-							</tr>
-						</thead>
-					</table>
-					<br>
-					<button type="submit" class="registerbtn" >Edit Faculty Details</button>
-				</form>
+				<div class="innerContainer">
+					<form action="{{url_for('facultyedit')}}" method="POST">
+						<table class="coursestable">
+							<thead>
+								<tr>
+									<th>Faculty ID</th>
+									<td><input type="text" class="input_text" placeholder="10 characters" name="FacultyID" required></td>
+								</tr>
+								<tr>
+									<th>Faculty Name</th>
+									<td><input type="text" class="input_text" placeholder="Name" name="FacultyName"></td>
+								</tr>
+								<tr>
+									<th>Address</th>
+									<td><textarea class="text_area" placeholder="Address" name="Address"></textarea></td>
+								</tr>
+								<tr>
+									<th>Phone Number</th>
+									<td><input type="text" class="input_text" placeholder="Phone Number" name="Phone"></td>
+								</tr>
+								<tr>
+									<th>Courses Teaching</th>
+									<td><input type="textarea" class="input_text" placeholder="Comma Separated Course IDs" name="CID"></td>
+								</tr>
+							</thead>
+						</table>
+						<br>
+						<button type="submit" class="submit_button" >Edit Faculty Details</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</body>
