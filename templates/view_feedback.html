@@ -1,0 +1,113 @@
+{% from "_macros.html" import admin_sidenav, topnav %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="../static/css/_macros.css" rel="stylesheet">
+		<style>
+			.coursestable {
+				border-collapse: collapse;
+				margin: auto;
+				margin-top: 50px;
+				font-size: 0.95em;
+				min-width: 650px;
+				border-radius: 5px 5px 0 0;
+				overflow: hidden;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+			}
+			.coursestable thead tr {
+				background-color: rgb(57, 54, 241);
+				color: #ffffff;
+				text-align: center;
+			}
+			.coursestable th,.coursestable td {
+				padding: 16px 15px;
+			}
+			
+			.coursestable tbody tr {
+				border-bottom: 1px solid #dddddd;
+				text-align: center;
+			}
+
+			.coursestable tbody tr:nth-of-type(even) {
+				background-color: #f3f3f3;
+			}
+
+			.coursestable tbody tr:last-of-type {
+				border-bottom: 2px solid rgb(57, 54, 241);
+			}
+
+			.coursestable tbody tr:hover {
+				background-color: #f5f5f5;
+			}
+			.registerbtn {
+				background-color: rgb(67, 67, 181);
+				color: white;
+				padding: 16px 20px;
+				margin: auto;
+				display:block;
+				border: none;
+				cursor: pointer;
+				width: 20%;
+				opacity: 0.9;
+				font-size: 16px;
+			}
+
+			.registerbtn:hover {
+				opacity: 1;
+			}
+
+			textarea{
+				background:white;
+				color:black;
+				border-color:royalblue;
+				resize: none;
+				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			}
+		
+			::placeholder{
+				color:black;
+				opacity: 0.7;
+			}
+			
+		</style>
+	</head>
+	<body>
+
+		{{ admin_sidenav() }}
+
+		<div id="main">
+			{{ topnav() }}
+
+			<div class="contentContainer">
+				{% if error %}
+				<p style="color :red; align-content: center;"> {{error}} </p>
+				{% endif %}
+				{% if success %}
+				<p style="color :green; align-content: center;"> {{success}} </p>
+				{% endif %}
+				<h2 style="margin-top: 40px;">Courses Feedback</h2>
+					<table class="coursestable">
+						<thead>
+							<tr>
+								<th>Course ID</th>
+								<th>Course Title</th>
+								<th>Feedback</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for course in all_courses %}
+							<tr>
+								<td>{{course.CourseID}}</td>
+								<td>{{course.CourseTitle}}</td>
+								<td><a href="{{url_for('view_feedback', CourseID = course.CourseID)}}">View</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+			</div>
+		</div>
+	</body>
+</html> 
