@@ -8,6 +8,7 @@ from Announcement import Announcement
 from Course import Course
 from FeedBack import FeedBack
 from datetime import datetime
+import traceback
 
 class Admin:
 	def __init__(self,db_conn,email = ""):
@@ -45,6 +46,7 @@ class Admin:
 			cursor.close()
 			return True
 		except:
+			traceback.print_exc()
 			print(f"\nError while assigning Student-{studentID} to Course-{courseID}\n")
 			return False
 
