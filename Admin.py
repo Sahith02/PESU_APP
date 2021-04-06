@@ -166,7 +166,7 @@ class Admin:
 				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary,))
 				db_conn.commit()
 				for facultyid in Faculties:
-					k=self.AssignFacultyToCourse(facultyid,ID,db_conn)
+					k=self.AssignFacultyToCourse(db_conn, facultyid, ID)
 					if not(k):
 						break
 				return (True,"All Done")
@@ -201,7 +201,7 @@ class Admin:
 			cur.close()
 			if Facultiestobeadded:
 				for i in Facultiestobeadded:
-					self.AssignFacultyToCourse(i,Id,db_conn)
+					self.AssignFacultyToCourse(db_conn, i, Id)
 			return (True,"Done")
 		else:
 			return (False,"Course Does Not Exist")
