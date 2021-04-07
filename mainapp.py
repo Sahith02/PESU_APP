@@ -367,7 +367,7 @@ def studentadd():
 	except:
 		return redirect(url_for("logout"))
 	result=request.form
-	srn,name,pgm,address,phone,branch=result["StudentSRN"],result["StudentName"],result["Program"],result["Address"],result["StudentPhone"],result["Branch"]
+	srn,name,pgm,address,phone,branch=result["StudentSRN"],result["StudentName"],result["Program"],result["Address"],result["Phone"],result["Branch"]
 	email,passw,repassw=result["email"],result["password"],result["repassword"]
 	error,success="",""
 	if passw!=repassw:
