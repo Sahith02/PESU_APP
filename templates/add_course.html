@@ -104,10 +104,8 @@
 				<div class="innerContainer">
 				
 					<form
-						method = "post" 
+						method = "POST" 
 						action = "{{url_for('courseadd')}}" 
-						enctype = "multipart/form-data"
-						style = ""
 						onSubmit="document.getElementById('submit_button').disabled=true;"
 					>
 						<table class="coursestable">
@@ -131,7 +129,7 @@
 								<tr>
 									<th>Course Details *</th>
 									<td>
-										<textarea class="textarea_notice" name="CourseDetails" id="area_custom"required></textarea>
+										<textarea class="textarea_notice" name="CourseDetails" id="area_custom" ></textarea>
 									</td>
 								</tr>
 								<tr>
