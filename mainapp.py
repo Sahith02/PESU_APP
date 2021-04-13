@@ -40,7 +40,7 @@ def validate():
 			session['email']=email
 			session['type']="student"
 			#session['obj']=Student(db_conn, email)
-			return redirect(url_for("student_courses"))
+			return redirect(url_for("student_notifications"))
 			# return Student(email)
 
 		if(account_type == 'faculty'):
@@ -48,7 +48,7 @@ def validate():
 			session['email']=email
 			session['type']="faculty"
 			#session['obj']=Faculty(db_conn, email)
-			return redirect(url_for("faculty_courses"))
+			return redirect(url_for("faculty_notifications"))
 	else:
 		session.pop('email',None)
 		session.pop('type',None)
