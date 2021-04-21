@@ -30,20 +30,26 @@ python mainapp.py
 
 ## Design Diagrams
 
-- #### Class Diagram
+#### 1. Class Diagram
 <p align="center">
 	<kbd><img src="./images/1. Class Diagram.jpg" width="500px"></kbd>
-	<br>
 </p>
-- #### System Architecture
-<p>
-	<kbd><img src="./images/2. System Architecture.jpg" width="500px" style="border-radius: 500px;"></kbd>
+
+#### 2. System Architecture
+<p align="center">
+	<kbd><img src="./images/2. System Architecture.jpg" width="500px"></kbd>
 <p>
 
 For the other activity diagrams and sequence diagrams for each use case, refer to the `images/` folder.
 
 ## Screenshots
 
+<p align="center">
+	<kbd><img src="./images/s1.login.png" width="500px"></kbd>
+	<kbd><img src="./images/s2.notifications.png" width="500px"></kbd>
+	<kbd><img src="./images/s3.feedback.png" width="500px"></kbd>
+	<kbd><img src="./images/s4.students.png" width="500px"></kbd>
+</p>
 
 ## Info
 This project was done as part of our Object Oriented Analysis and Design course.

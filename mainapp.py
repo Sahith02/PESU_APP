@@ -9,7 +9,7 @@ import mysql.connector
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
-app.secret_key="saresr"
+app.secret_key="abc"
 
 @app.route('/') # whenever you land on this page, login function is called, only the landing page
 def login():
