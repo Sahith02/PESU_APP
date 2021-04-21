@@ -30,11 +30,13 @@ python mainapp.py
 
 ## Design Diagrams
 
+- #### Class Diagram
 <p align="center">
-	- #### Class Diagram
 	<kbd><img src="./images/1. Class Diagram.jpg" width="500px"></kbd>
 	<br>
-	- #### System Architecture
+</p>
+- #### System Architecture
+<p>
 	<kbd><img src="./images/2. System Architecture.jpg" width="500px" style="border-radius: 500px;"></kbd>
 <p>
 
