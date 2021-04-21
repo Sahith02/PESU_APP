@@ -37,7 +37,7 @@ python mainapp.py
 </p>
 
 - #### System Architecture
-<p>
+<p align="center">
 	<kbd><img src="./images/2. System Architecture.jpg" width="500px" style="border-radius: 500px;"></kbd>
 <p>
 
