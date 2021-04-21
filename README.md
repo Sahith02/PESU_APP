@@ -28,7 +28,16 @@ python mainapp.py
     - Notification system (View all notifications)
     - Course feedback (Give feedback to courses opted for)
 
+## Design Diagrams
+
+<p align="center">
+	<kbd><img src="./images/1. Class Diagram.jpg" width="150px" style="border-radius: 500px;"></kbd>
+	<kbd><img src="./images/2. System Architecture.jpg" width="150px" style="border-radius: 500px;"></kbd>
+<p>
+
 ## Screenshots
+
+
 ## Info
 This project was done as part of our Object Oriented Analysis and Design course.
 
