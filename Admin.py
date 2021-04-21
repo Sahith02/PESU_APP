@@ -7,7 +7,6 @@ import datetime
 from Announcement import Announcement
 from Course import Course
 from FeedBack import FeedBack
-from datetime import datetime
 import traceback
 
 class Admin:
@@ -45,7 +44,7 @@ class Admin:
 			res=cursor.fetchall()
 			if res:
 				query="INSERT INTO stucou(courseid,studentid) values (%s,%s)"
-				cursor.execute(query,(courseID,studentID,))
+				cursor.execute(query,(courseID,studentID))
 				db_conn.commit()
 				cursor.close()
 				return True
@@ -65,19 +64,19 @@ class Admin:
 				return (False,"Student Does Not Exist")
 			if address:
 				query="UPDATE student SET address=%s WHERE srn=%s"
-				cur.execute(query,(address,srn,))
+				cur.execute(query,(address,srn))
 				db_conn.commit()
 			if name:
 				query="UPDATE student SET studname=%s WHERE srn=%s"
-				cur.execute(query,(name,srn,))
+				cur.execute(query,(name,srn))
 				db_conn.commit()
 			if phone:
 				query="UPDATE student SET phonenumber=%s WHERE srn=%s"
-				cur.execute(query,(phone,srn,))
+				cur.execute(query,(phone,srn))
 				db_conn.commit()
 			if branch:
 				query="UPDATE student SET branch=%s WHERE srn=%s"
-				cur.execute(query,(branch,srn,))
+				cur.execute(query,(branch,srn))
 				db_conn.commit()
 			cur.close()
 			if courses:
@@ -96,7 +95,7 @@ class Admin:
 			res=cur.fetchall()
 			if res:
 				return (False,"Faculty ID already exists")
-			date=datetime.strptime(date,"%Y-%m-%d")
+			date=datetime.datetime.strptime(date,"%Y-%m-%d")
 			query="INSERT into faculty(FacultyID,`Name`,Email,ContactNumber,`Address`,DateOfJoining) VALUES (%s,%s,%s,%s,%s,%s)"
 			cur.execute(query,(id,name,email,phone,address,date))
 			db_conn.commit()
@@ -115,15 +114,15 @@ class Admin:
 				return (False,"Faculty Does Not Exist")
 			if address:
 				query="UPDATE faculty SET `address`=%s WHERE FacultyID=%s"
-				cur.execute(query,(address,id,))
+				cur.execute(query,(address,id))
 				db_conn.commit()
 			if name:
 				query="UPDATE faculty SET `Name`=%s WHERE FacultyID=%s"
-				cur.execute(query,(name,id,))
+				cur.execute(query,(name,id))
 				db_conn.commit()
 			if phonenumber:
 				query="UPDATE faculty SET ContactNumber=%s WHERE FacultyID=%s"
-				cur.execute(query,(phonenumber,id,))
+				cur.execute(query,(phonenumber,id))
 				db_conn.commit()
 			cur.close()
 			if courseid:
@@ -141,7 +140,7 @@ class Admin:
 			res=cursor.fetchall()
 			if res:
 				query="INSERT INTO coufac(courseid,facultyid) values (%s,%s)"
-				cursor.execute(query,(courseID,facultyID,))
+				cursor.execute(query,(courseID,facultyID))
 				db_conn.commit()
 				cursor.close()
 				return True
@@ -173,7 +172,7 @@ class Admin:
 				if res:
 					return (False,("Course Already Exists"))
 				query="INSERT INTO course(courseid,coursetitle,department,coursedetails,avl) values(%s,%s,%s,%s,%s)"
-				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary,))
+				cur.execute(query,(ID,CourseTitle,Department,Details,AVSummary))
 				db_conn.commit()
 				for facultyid in Faculties:
 					k=self.AssignFacultyToCourse(db_conn, facultyid, ID)
@@ -198,15 +197,15 @@ class Admin:
 					return (False,("Course Does Not Exist"))
 			if Title:
 				query="UPDATE course SET coursetitle=%s WHERE courseid=%s"
-				cur.execute(query,(Title,Id,))
+				cur.execute(query,(Title,Id))
 				db_conn.commit()
 			if Details:
 				query="UPDATE course SET coursedetails=%s WHERE courseid=%s"
-				cur.execute(query,(Details,Id,))
+				cur.execute(query,(Details,Id))
 				db_conn.commit()
 			if AVS:
 				query="UPDATE course SET avl=%s WHERE courseid=%s"
-				cur.execute(query,(AVS,Id,))
+				cur.execute(query,(AVS,Id))
 				db_conn.commit()
 			cur.close()
 			if Facultiestobeadded:
@@ -235,7 +234,7 @@ class Admin:
 		PostingTime = datetime.datetime.now() if (PostingTime == None) else PostingTime
 		cur = db_conn.cursor()
 		query = "INSERT INTO `pesuapp`.`announcement` (`id`, `title`, `location`, `description`, `picture_link`, `hyperlink`, `posting_time`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
-		cur.execute(query, (ID, Title, Location, Description, PictureLink, HyperLink, PostingTime,))
+		cur.execute(query, (ID, Title, Location, Description, PictureLink, HyperLink, PostingTime))
 		db_conn.commit()
 		cur.close()
 
@@ -246,23 +245,23 @@ class Admin:
 			if(Title):
 				query = "UPDATE announcement SET title = %s WHERE id = %s"
 				# print(Title, ID)
-				cur.execute(query, (Title, ID,))
+				cur.execute(query, (Title, ID))
 				db_conn.commit()
 			if(Location):
 				query = "UPDATE announcement SET location = %s WHERE id = %s"
-				cur.execute(query, (Location, ID,))
+				cur.execute(query, (Location, ID))
 				db_conn.commit()
 			if(Description):
 				query = "UPDATE announcement SET description = %s WHERE id = %s"
-				cur.execute(query, (Description, ID,))
+				cur.execute(query, (Description, ID))
 				db_conn.commit()
 			if(PictureLink):
 				query = "UPDATE announcement SET picture_link = %s WHERE id = %s"
-				cur.execute(query, (PictureLink, ID,))
+				cur.execute(query, (PictureLink, ID))
 				db_conn.commit()
 			if(HyperLink):
 				query = "UPDATE announcement SET hyperlink = %s WHERE id = %s"
-				cur.execute(query, (HyperLink, ID,))
+				cur.execute(query, (HyperLink, ID))
 				db_conn.commit()
 		else:
 			return
