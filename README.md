@@ -31,8 +31,9 @@ python mainapp.py
 ## Design Diagrams
 
 <p align="center">
-	<kbd><img src="./images/1. Class Diagram.jpg" width="150px" style="border-radius: 500px;"></kbd>
-	<kbd><img src="./images/2. System Architecture.jpg" width="150px" style="border-radius: 500px;"></kbd>
+	<kbd><img src="./images/1. Class Diagram.jpg" width="500px"></kbd>
+	<br>
+	<kbd><img src="./images/2. System Architecture.jpg" width="500px" style="border-radius: 500px;"></kbd>
 <p>
 
 ## Screenshots
