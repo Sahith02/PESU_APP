@@ -40,11 +40,16 @@ class Admin:
 	def AssignStudentToCourse(self,db_conn,studentID,courseID):
 		try:
 			cursor=db_conn.cursor()
-			query="INSERT INTO stucou(courseid,studentid) values (%s,%s)"
-			cursor.execute(query,(courseID,studentID,))
-			db_conn.commit()
-			cursor.close()
-			return True
+			query="SELECT srn FROM student WHERE srn = %s"
+			cursor.execute(query,(studentID,))
+			res=cursor.fetchall()
+			if res:
+				query="INSERT INTO stucou(courseid,studentid) values (%s,%s)"
+				cursor.execute(query,(courseID,studentID,))
+				db_conn.commit()
+				cursor.close()
+				return True
+			return False
 		except:
 			traceback.print_exc()
 			print(f"\nError while assigning Student-{studentID} to Course-{courseID}\n")
@@ -131,11 +136,16 @@ class Admin:
 	def AssignFacultyToCourse(self,db_conn,facultyID,courseID):
 		try:
 			cursor=db_conn.cursor()
-			query="INSERT INTO coufac(courseid,facultyid) values (%s,%s)"
-			cursor.execute(query,(courseID,facultyID,))
-			db_conn.commit()
-			cursor.close()
-			return True
+			query="SELECT FacultyID FROM Faculty WHERE FacultyID = %s"
+			cursor.execute(query,(facultyID,))
+			res=cursor.fetchall()
+			if res:
+				query="INSERT INTO coufac(courseid,facultyid) values (%s,%s)"
+				cursor.execute(query,(courseID,facultyID,))
+				db_conn.commit()
+				cursor.close()
+				return True
+			return False
 		except:
 			print(f"\nError while assigning Faculty-{facultyID} to Course-{courseID}\n")
 			return False
@@ -201,7 +211,10 @@ class Admin:
 			cur.close()
 			if Facultiestobeadded:
 				for i in Facultiestobeadded:
-					self.AssignFacultyToCourse(db_conn, i, Id)
+					if self.AssignFacultyToCourse(db_conn, i, Id):
+						pass
+					else:
+						return (False,f"{i} is not a right facultyID")
 			return (True,"Done")
 		else:
 			return (False,"Course Does Not Exist")

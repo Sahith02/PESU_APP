@@ -23,7 +23,7 @@ class FeedBack:
 			cur.execute(q,(self.CourseID, self.StudentID,))
 			res=cur.fetchone()
 			if res:
-				q="UPDATE feedback SET review=%s WHERE CourseID=%s AND StudentID=%s"
+				q="UPDATE feedback SET Review=%s WHERE CourseID=%s AND StudentID=%s"
 				cur.execute(q, (review,self.CourseID, self.StudentID,))
 				dbconn.commit()
 				return True
